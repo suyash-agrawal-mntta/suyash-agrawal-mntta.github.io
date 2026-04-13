@@ -1,0 +1,329 @@
+@import "tailwindcss";
+@config "../../tailwind.config.ts";
+
+/* ═══════════════════════════════════════════════════
+   1. THEME VARIABLES — Exact Stitch + User Spec
+   ═══════════════════════════════════════════════════ */
+:root, [data-theme='default'] {
+  --bg: #121212;
+  --primary: #f3ffca;
+  --text: #ffffff;
+  --surface: #0a0a0a;
+  --surface-variant: #1a1a1a;
+  --surface-dark: #080808;
+  --surface-darker: #050505;
+}
+
+[data-theme='lavender'] {
+  --bg: #a78bfa;
+  --primary: #f3e8ff;
+  --text: #1e1b4b;
+  --surface: #9061f9;
+  --surface-variant: #7c3aed;
+  --surface-dark: #8b5cf6;
+  --surface-darker: #7c3aed;
+}
+
+[data-theme='terracotta'] {
+  --bg: #e2725b;
+  --primary: #2d3748;
+  --text: #f7fafc;
+  --surface: #d4644e;
+  --surface-variant: #c9604b;
+  --surface-dark: #c05640;
+  --surface-darker: #a84a38;
+}
+
+/* ═══════════════════════════════════════════════════
+   2. GLOBAL RESETS & BODY
+   ═══════════════════════════════════════════════════ */
+@media (hover: hover) and (pointer: fine) {
+  * { cursor: none !important; }
+}
+
+body {
+  background-color: var(--bg);
+  color: #e0e0e0;
+  font-family: var(--font-inter, 'Inter'), sans-serif;
+  overflow-x: hidden;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+.font-headline { font-family: var(--font-space-grotesk, 'Space Grotesk'), sans-serif; }
+
+/* ═══════════════════════════════════════════════════
+   3. SCROLLBAR — Exact Stitch: width 4px
+   ═══════════════════════════════════════════════════ */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+
+/* ═══════════════════════════════════════════════════
+   4. CUSTOM CURSOR — Exact Stitch
+   ═══════════════════════════════════════════════════ */
+#custom-cursor {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  width: 48px;
+  height: 48px;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s linear;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#cursor-img {
+  width: 100%;
+  height: 100%;
+  transition: transform 0.3s ease;
+  transform: rotate(45deg);
+}
+#cursor-dot-inner {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: var(--primary);
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  box-shadow: 0 0 10px var(--primary);
+}
+.hovering #cursor-img { transform: rotate(0deg); }
+.hovering #cursor-dot-inner { opacity: 1; }
+
+/* ═══════════════════════════════════════════════════
+   5. TOP PROGRESS BAR — Exact Stitch
+   ═══════════════════════════════════════════════════ */
+#top-progress-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  z-index: 1000;
+  background: rgba(255,255,255,0.05);
+}
+#top-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: var(--primary);
+  box-shadow: 0 0 10px var(--primary);
+  position: relative;
+}
+#scroll-gear-container {
+  position: absolute;
+  right: -20px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#scroll-gear-img {
+  width: 32px;
+  height: 32px;
+  filter: invert(93%) sepia(21%) saturate(452%) hue-rotate(24deg) brightness(107%) contrast(101%);
+}
+
+/* ═══════════════════════════════════════════════════
+   6. HEADING HOVER & ACCENT TEXT — Exact Stitch
+   ═══════════════════════════════════════════════════ */
+.hover-green:hover { color: var(--primary) !important; }
+.text-primary-neon { color: var(--primary); }
+
+/* ═══════════════════════════════════════════════════
+   7. TYPING CURSOR — Exact Stitch
+   ═══════════════════════════════════════════════════ */
+.typing-cursor {
+  display: inline-block;
+  width: 2px;
+  background-color: var(--primary);
+  margin-left: 2px;
+  animation: blink 0.8s infinite;
+}
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+/* ═══════════════════════════════════════════════════
+   8. HERO IMAGE FLOAT — Exact Stitch
+   ═══════════════════════════════════════════════════ */
+.hero-img-container img {
+  filter: grayscale(100%);
+  transition: all 0.8s ease;
+}
+.hero-img-container:hover img {
+  filter: grayscale(0%);
+}
+.hero-img-float {
+  animation: float 6s ease-in-out infinite;
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0px) scale(1); filter: drop-shadow(0 0 20px rgba(243, 255, 202, 0.1)); }
+  50% { transform: translateY(-20px) scale(1.02); filter: drop-shadow(0 0 40px rgba(243, 255, 202, 0.3)); }
+}
+
+/* ═══════════════════════════════════════════════════
+   9. TIMELINE — Exact Stitch cubic-bezier
+   ═══════════════════════════════════════════════════ */
+.timeline-line {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: rgba(255,255,255,0.05);
+  transform: translateX(-50%);
+}
+#timeline-progress {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 0;
+  background: var(--primary);
+  box-shadow: 0 0 15px var(--primary);
+  transition: height 0.1s ease-out;
+}
+.milestone-node {
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  z-index: 10;
+  pointer-events: none;
+}
+.timeline-row {
+  transition: transform 0.4s ease, filter 0.4s ease;
+}
+.timeline-row.active {
+  transform: scale(1.05);
+  filter: drop-shadow(0 0 10px rgba(243, 255, 202, 0.1));
+}
+.milestone-node.active {
+  transform: translate(-50%, -50%) scale(1.8);
+  background: var(--primary);
+  box-shadow: 0 0 20px var(--primary);
+}
+
+/* ═══════════════════════════════════════════════════
+   10. HORIZONTAL SCROLL PROJECTS — Exact Stitch
+   ═══════════════════════════════════════════════════ */
+.horizontal-scroll-container {
+  height: 350vh;
+  position: relative;
+  margin-top: 10vh;
+}
+.sticky-wrapper {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+.project-track {
+  display: flex;
+  gap: 3rem;
+  padding: 0 10vw;
+  will-change: transform;
+  transition: transform 0.1s linear;
+}
+
+/* ═══════════════════════════════════════════════════
+   11. PROJECT CARDS — Exact Stitch
+   ═══════════════════════════════════════════════════ */
+.project-card {
+  width: 450px;
+  height: 600px;
+  flex-shrink: 0;
+  position: relative;
+  border-radius: 2rem;
+  overflow: hidden;
+  background: #111;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+.project-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(transparent, rgba(0,0,0,0.9));
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 2.5rem;
+}
+.project-card:hover .project-overlay { opacity: 1; }
+
+/* ═══════════════════════════════════════════════════
+   12. THEME SWITCHER PILL — Exact Stitch
+   ═══════════════════════════════════════════════════ */
+.theme-pill {
+  background: #1a1a1a;
+  border-radius: 999px;
+  padding: 6px;
+  display: flex;
+  gap: 6px;
+  border: 1px solid rgba(255,255,255,0.1);
+  cursor: pointer;
+}
+.theme-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+.theme-dot-1 { background: #f3ffca; }
+.theme-dot-2 { background: #e0e7ff; }
+.theme-dot-3 { background: #fca5a5; }
+
+/* ═══════════════════════════════════════════════════
+   13. CERT SCROLLBAR — Exact Stitch
+   ═══════════════════════════════════════════════════ */
+#cert-container::-webkit-scrollbar { height: 4px; }
+#cert-container::-webkit-scrollbar-track {
+  background: rgba(255,255,255,0.02);
+  border-radius: 10px;
+}
+#cert-container::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 10px;
+}
+#cert-container {
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary) transparent;
+}
+
+/* ═══════════════════════════════════════════════════
+   14. MODAL — Exact Stitch
+   ═══════════════════════════════════════════════════ */
+.modal-backdrop {
+  background: rgba(0,0,0,0.95);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+}
+
+/* ═══════════════════════════════════════════════════
+   15. THEME-REACTIVE UTILITY CLASSES
+   ═══════════════════════════════════════════════════ */
+.glass-header {
+  background: color-mix(in srgb, var(--surface) 80%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+.bg-accent-5 { background: color-mix(in srgb, var(--primary) 5%, transparent); }
+.bg-accent-10 { background: color-mix(in srgb, var(--primary) 10%, transparent); }
+.border-accent-20 { border-color: color-mix(in srgb, var(--primary) 20%, transparent); }
+.border-accent-40 { border-color: color-mix(in srgb, var(--primary) 40%, transparent); }
+.text-accent { color: var(--primary); }
+.fill-accent { fill: var(--primary); }
+.bg-themed { background-color: var(--bg); }
+.bg-surface { background-color: var(--surface); }
+.bg-surface-dark { background-color: var(--surface-dark); }
+.bg-surface-darker { background-color: var(--surface-darker); }
+.text-themed { color: var(--text); }
+
+/* Selection */
+::selection {
+  background: var(--primary);
+  color: #000000;
+}

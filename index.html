@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SUYASH AGRAWAL | AI Engineer Portfolio</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            --primary: #f3ffca;
+            --surface: #0a0a0a;
+            --surface-variant: #1a1a1a;
+        }
+
+        * { cursor: none !important; }
+        
+        body {
+            background-color: var(--surface);
+            color: #e0e0e0;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .font-headline { font-family: 'Space Grotesk', sans-serif; }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+
+        /* Custom Gaming Crosshair Cursor */
+        #custom-cursor {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            width: 48px;
+            height: 48px;
+            transform: translate(-50%, -50%);
+            transition: transform 0.1s linear;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        #cursor-img {
+            width: 100%;
+            height: 100%;
+            transition: transform 0.3s ease;
+            transform: rotate(45deg);
+        }
+
+        #cursor-dot-inner {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: var(--primary);
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            box-shadow: 0 0 10px var(--primary);
+        }
+
+        /* Hover State for Cursor */
+        .hovering #cursor-img {
+            transform: rotate(0deg);
+        }
+        .hovering #cursor-dot-inner {
+            opacity: 1;
+        }
+
+        /* Top Progress Bar & Traveling Gear */
+        #top-progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            z-index: 1000;
+            background: rgba(255,255,255,0.05);
+        }
+        #top-progress-bar {
+            height: 100%;
+            width: 0%;
+            background: var(--primary);
+            box-shadow: 0 0 10px var(--primary);
+            position: relative;
+        }
+        #scroll-gear-container {
+            position: absolute;
+            right: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #scroll-gear-img {
+            width: 32px;
+            height: 32px;
+            filter: invert(93%) sepia(21%) saturate(452%) hue-rotate(24deg) brightness(107%) contrast(101%);
+        }
+
+        /* Heading Hover Effects */
+        .hover-green:hover { color: var(--primary) !important; }
+
+        /* Dynamic Typing Animation */
+        .typing-container { display: inline-block; position: relative; }
+        .typing-cursor {
+            display: inline-block;
+            width: 2px;
+            background-color: var(--primary);
+            margin-left: 2px;
+            animation: blink 0.8s infinite;
+        }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+        .text-primary-neon { color: var(--primary); }
+
+        /* Hero Image Animation & Hover Interaction */
+        .hero-img-container img {
+            filter: grayscale(100%);
+            transition: all 0.8s ease;
+        }
+        .hero-img-container:hover img {
+            filter: grayscale(0%);
+        }
+        .hero-img-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) scale(1); filter: drop-shadow(0 0 20px rgba(243, 255, 202, 0.1)); }
+            50% { transform: translateY(-20px) scale(1.02); filter: drop-shadow(0 0 40px rgba(243, 255, 202, 0.3)); }
+        }
+
+        /* Timeline Styles */
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: rgba(255,255,255,0.05);
+            transform: translateX(-50%);
+        }
+        #timeline-progress {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            background: var(--primary);
+            box-shadow: 0 0 15px var(--primary);
+            transition: height 0.1s ease-out;
+        }
+        .milestone-node {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 10;
+            pointer-events: none;
+        }
+        .timeline-row { transition: transform 0.4s ease, filter 0.4s ease; }
+        .timeline-row.active { transform: scale(1.05); filter: drop-shadow(0 0 10px rgba(243, 255, 202, 0.1)); }
+        .milestone-node.active {
+            transform: translate(-50%, -50%) scale(1.8);
+            background: var(--primary);
+            box-shadow: 0 0 20px var(--primary);
+        }
+
+        /* Horizontal Scroll Projects */
+        .horizontal-scroll-container {
+            height: 350vh; /* Increased for better scroll feel */
+            position: relative;
+            margin-top: 10vh;
+        }
+        .sticky-wrapper {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+        .project-track {
+            display: flex;
+            gap: 3rem;
+            padding: 0 10vw;
+            will-change: transform;
+            transition: transform 0.1s linear;
+        }
+
+        /* Project Cards */
+        .project-card {
+            width: 450px;
+            height: 600px;
+            flex-shrink: 0;
+            position: relative;
+            border-radius: 2rem;
+            overflow: hidden;
+            background: #111;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .project-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 2.5rem;
+        }
+        .project-card:hover .project-overlay { opacity: 1; }
+
+        /* Reveal Animation */
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        /* Theme Switcher Capsule */
+        .theme-pill {
+            background: #1a1a1a;
+            border-radius: 999px;
+            padding: 6px;
+            display: flex;
+            gap: 6px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .theme-dot {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        .theme-dot-1 { background: #f3ffca; }
+        .theme-dot-2 { background: #e0e7ff; opacity: 0.4; }
+        .theme-dot-3 { background: #fca5a5; opacity: 0.4; }
+
+        /* Certifications horizontal standard scrollbar */
+        #cert-container::-webkit-scrollbar {
+            height: 4px;
+        }
+        #cert-container::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.02);
+            border-radius: 10px;
+        }
+        #cert-container::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+        #cert-container {
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary) transparent;
+        }
+    </style>
+</head>
+<body class="selection:bg-primary selection:text-black">
+<!-- Top Progress Bar -->
+<div id="top-progress-container">
+<div id="top-progress-bar">
+<div id="scroll-gear-container">
+<img alt="Progress Gear" id="scroll-gear-img" src="https://lh3.googleusercontent.com/aida/ADBb0ugy3JLjoWQ_oCIfr-BgKZq_DK3IIwhPSN3z3s7WDLsyfR-DhgVD2LRXcxJ9c1UcX40e7W99NDca-q2mGZMd9KNDawK4f5YjGgRUy3CZO0di2rwBe-H_3CpozBMjKyVietuM4xcS8jVBcfC-hAkHDml_97XOpc_sXomdd8i-T21rkmcAnpq8CEdH_cYUcMr2-p2jrjcX1wgCQFYCgRcVS-QxPR2PQrnvngCuCYMsgcZgzSGjO8wZwRjbZI3avw_lUylI0LWozuMO-w"/>
+</div>
+</div>
+</div>
+<!-- Custom Cursor -->
+<div id="custom-cursor">
+<img alt="Crosshair" id="cursor-img" src="https://lh3.googleusercontent.com/aida/ADBb0ugBrHTDnn47dwLzkZDMKNc--bWExqWT-q2DftNed9HEKvPTRHHg4qKzJz6lPpZ3Wkz4_53FtX0SFohfkmgrlL9ftachF0ysImPHZL_NB_FwndGR3alJxlCLZY7SZMbCO6lnarqDnhulEr8osuek0U7mFlloXLSwCqdfK43kZA3UHqw8_E_ZuGECnwYs4YHxevwYVf5SKN3o8JDFQ6WRlxzYiZT8Ve5utW0NZsSrhtxwxjhSpRsNA8-HJJHQBgcswMMoLqbehFTa3A"/>
+<div id="cursor-dot-inner"></div>
+</div>
+<!-- Header -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-8 md:px-16 py-6 bg-surface/80 backdrop-blur-lg border-b border-white/5">
+<div class="text-lg font-headline font-bold tracking-tighter text-white uppercase hover-green transition-colors cursor-pointer">Suyash.</div>
+<nav class="hidden md:flex gap-10 text-[11px] font-bold uppercase tracking-[0.2em] items-center">
+<a class="nav-link text-neutral-400 hover:text-primary transition-colors" href="#about">About</a>
+<a class="nav-link text-neutral-400 hover:text-primary transition-colors" href="#skills">Skills</a>
+<a class="nav-link text-neutral-400 hover:text-primary transition-colors" href="#experience">Experience</a>
+<a class="nav-link text-neutral-400 hover:text-primary transition-colors" href="#projects">Projects</a>
+</nav>
+<div class="flex items-center gap-6">
+<div class="theme-pill nav-link cursor-pointer">
+<div class="theme-dot theme-dot-1"></div>
+<div class="theme-dot theme-dot-2"></div>
+<div class="theme-dot theme-dot-3"></div>
+</div>
+</div>
+</header>
+<main>
+<!-- Hero Section -->
+<section class="min-h-screen flex items-center justify-center pt-20 px-8" id="about">
+<div class="max-w-7xl w-full grid lg:grid-cols-2 gap-16 items-center">
+<div class="order-2 lg:order-1">
+<div class="mb-6 inline-block px-3 py-1 bg-primary/10 border border-primary/20 rounded text-[10px] font-bold tracking-[0.3em] text-primary uppercase reveal">
+                        AI Engineer &amp; Researcher
+                    </div>
+<h1 class="font-headline text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-primary-neon leading-none mb-8 hover-green transition-colors">
+<span class="typing-target" data-text="SUYASH AGRAWAL"></span><span class="typing-cursor">|</span>
+</h1>
+<p class="text-lg md:text-xl text-neutral-400 max-w-xl leading-relaxed reveal">
+                        Building resilient <span class="text-white font-medium">LLM systems</span> and <span class="text-white font-medium">Autonomous Agents</span>. Currently architecting intelligent workflows for international scale.
+                    </p>
+<div class="flex gap-6 mt-12 reveal">
+<button class="nav-link px-8 py-4 border border-white/10 text-white text-xs font-bold uppercase tracking-widest rounded-lg hover:bg-white/5 transition-all">
+                            Download CV
+                        </button>
+<button class="nav-link px-8 py-4 bg-primary text-black text-xs font-bold uppercase tracking-widest rounded-lg hover:shadow-[0_0_30px_rgba(243,255,202,0.2)] transition-all">
+                            Get in Touch
+                        </button>
+</div>
+</div>
+<div class="order-1 lg:order-2 flex justify-center lg:justify-end">
+<div class="relative w-full max-w-md aspect-[3/4] rounded-[2.5rem] overflow-hidden hero-img-float hero-img-container reveal">
+<img alt="Suyash Agrawal" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/ADBb0ujQac-DUspTADqW5CNhSBgPDCDEAWWqvgbcPpgDUK6buvWS-MNTrutLlmzO17LT26fB97I6yzEW_y8rpuThH8RwLn2NTF0YltlnGcYs9N7nYDxzl7ru5CoFiZpbcYeVD5Zf9lTicwvbpZZOTiYDNYNgqlF8Poe-4i3OXhP8zKNo8PFqOtTQzlxl69mL6NL1rMyLAQ6OScafh-69tZMt2W43NmrrrvY-oxsE4t9mWmWko2ytADTqe-py-aSST4Irb07QEhDeNBpB9A"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Technical Skills Section -->
+<section class="py-32 px-8 border-t border-white/5 bg-[#080808]" id="skills">
+<div class="max-w-7xl mx-auto">
+<h2 class="font-headline text-4xl md:text-6xl font-bold text-primary-neon mb-20 hover-green transition-colors">
+<span class="typing-target" data-text="TECHNICAL SKILLS"></span><span class="typing-cursor">|</span>
+</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0 border-t border-l border-white/10 reveal">
+<!-- AI & Automation -->
+<div class="p-10 border-r border-b border-white/10 hover:bg-primary/5 transition-colors group">
+<span class="material-symbols-outlined text-primary text-4xl mb-6">psychology</span>
+<h3 class="text-sm font-bold text-white mb-4 tracking-[0.2em] uppercase">AI &amp; Automation</h3>
+<ul class="space-y-2 text-xs text-neutral-400 font-medium">
+<li>LLM Orchestration</li>
+<li>AI Agents</li>
+<li>Generative AI</li>
+<li>Prompt Engineering</li>
+<li>Vercel AI SDK</li>
+<li>Hugging Face</li>
+</ul>
+</div>
+<!-- Languages -->
+<div class="p-10 border-r border-b border-white/10 hover:bg-primary/5 transition-colors group">
+<span class="material-symbols-outlined text-primary text-4xl mb-6">code</span>
+<h3 class="text-sm font-bold text-white mb-4 tracking-[0.2em] uppercase">Languages</h3>
+<ul class="space-y-2 text-xs text-neutral-400 font-medium">
+<li>TypeScript / JavaScript</li>
+<li>Python</li>
+<li>Java</li>
+<li>SQL</li>
+<li>HTML / CSS</li>
+</ul>
+</div>
+<!-- Frameworks -->
+<div class="p-10 border-r border-b border-white/10 hover:bg-primary/5 transition-colors group">
+<span class="material-symbols-outlined text-primary text-4xl mb-6">layers</span>
+<h3 class="text-sm font-bold text-white mb-4 tracking-[0.2em] uppercase">Frameworks</h3>
+<ul class="space-y-2 text-xs text-neutral-400 font-medium">
+<li>Next.js / Node.js</li>
+<li>React</li>
+<li>Express.js</li>
+<li>NumPy / Pandas</li>
+<li>OpenCV</li>
+</ul>
+</div>
+<!-- APIs & Services -->
+<div class="p-10 border-r border-b border-white/10 hover:bg-primary/5 transition-colors group">
+<span class="material-symbols-outlined text-primary text-4xl mb-6">api</span>
+<h3 class="text-sm font-bold text-white mb-4 tracking-[0.2em] uppercase">APIs &amp; Services</h3>
+<ul class="space-y-2 text-xs text-neutral-400 font-medium">
+<li>OpenAI / Anthropic</li>
+<li>ElevenLabs</li>
+<li>Spotify / WABA API</li>
+<li>OAuth 2.0 / REST</li>
+</ul>
+</div>
+<!-- Tools & Cloud -->
+<div class="p-10 border-r border-b border-white/10 hover:bg-primary/5 transition-colors group lg:col-span-2">
+<span class="material-symbols-outlined text-primary text-4xl mb-6">cloud</span>
+<h3 class="text-sm font-bold text-white mb-4 tracking-[0.2em] uppercase">Tools &amp; Cloud</h3>
+<div class="grid grid-cols-2 gap-4">
+<ul class="space-y-2 text-xs text-neutral-400 font-medium">
+<li>Git / GitHub</li>
+<li>Vercel / Render</li>
+<li>MySQL / Postman</li>
+</ul>
+<ul class="space-y-2 text-xs text-neutral-400 font-medium">
+<li>VS Code</li>
+<li>Azure AI</li>
+<li>AWS</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Experience & Education -->
+<section class="py-32 px-8 bg-surface overflow-hidden" id="experience">
+<div class="max-w-7xl mx-auto relative">
+<div class="flex items-center justify-center mb-32">
+<h2 class="font-headline text-4xl md:text-6xl font-bold text-primary-neon uppercase text-center w-full reveal">
+<span class="typing-target" data-text="EXPERIENCE &amp; EDUCATION"></span><span class="typing-cursor">|</span>
+</h2>
+</div>
+<div class="relative min-h-[1200px]" id="timeline-container">
+<div class="timeline-line">
+<div id="timeline-progress"></div>
+</div>
+<!-- Item 1: Experience -->
+<div class="relative grid md:grid-cols-2 gap-24 items-center mb-48 timeline-row group" data-scroll-id="exp1">
+<div class="md:text-right md:pr-16 reveal">
+<div class="text-xs font-bold text-primary tracking-[0.3em] mb-4">JAN 2026 - PRESENT</div>
+<h4 class="text-2xl font-bold text-white mb-2 hover-green transition-colors">AI Developer Intern</h4>
+<p class="text-neutral-400 font-medium mb-4">Appiness Interactive Private Limited</p>
+<p class="text-sm text-neutral-500 leading-relaxed max-w-md md:ml-auto">
+                                Developing enterprise-grade agentic workflows and LLM orchestration layers. Focused on improving retrieval accuracy and multi-step reasoning capabilities.
+                            </p>
+</div>
+<div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-2 border-primary bg-surface milestone-node"></div>
+<div class="hidden md:block"></div>
+</div>
+<!-- Item 2: Education -->
+<div class="relative grid md:grid-cols-2 gap-24 items-center mb-48 timeline-row group" data-scroll-id="edu1">
+<div class="hidden md:block"></div>
+<div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-2 border-primary bg-surface milestone-node"></div>
+<div class="md:pl-16 reveal">
+<div class="text-xs font-bold text-primary tracking-[0.3em] mb-4">2022 - 2026</div>
+<h4 class="text-2xl font-bold text-white mb-2 hover-green transition-colors">B.Tech CSE (Core)</h4>
+<p class="text-neutral-400 font-medium mb-4">VIT-AP University</p>
+<div class="p-6 bg-white/5 rounded-2xl border border-white/5 inline-block">
+<span class="text-primary font-bold text-xl">8.5 / 10.0</span> <span class="text-neutral-500 ml-2">CGPA</span>
+</div>
+</div>
+</div>
+<!-- Item 3: Education -->
+<div class="relative grid md:grid-cols-2 gap-24 items-center mb-48 timeline-row group" data-scroll-id="edu2">
+<div class="hidden md:block"></div>
+<div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-2 border-primary bg-surface milestone-node"></div>
+<div class="md:pl-16 reveal">
+<div class="text-xs font-bold text-primary tracking-[0.3em] mb-4">2020 - 2022</div>
+<h4 class="text-2xl font-bold text-white mb-2 hover-green transition-colors">Higher Secondary (CBSE)</h4>
+<p class="text-neutral-400 font-medium mb-4">Deens Academy</p>
+<div class="p-4 bg-white/5 rounded-xl border border-white/5 flex items-center gap-4">
+<span class="text-primary font-bold">92.8%</span>
+<div class="h-4 w-px bg-white/10"></div>
+<span class="text-xs text-neutral-500 uppercase tracking-widest">Graduated with Distinction</span>
+</div>
+</div>
+</div>
+<!-- Item 4: Education -->
+<div class="relative grid md:grid-cols-2 gap-24 items-center timeline-row group" data-scroll-id="edu3">
+<div class="hidden md:block"></div>
+<div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-2 border-primary bg-surface milestone-node"></div>
+<div class="md:pl-16 reveal">
+<div class="text-xs font-bold text-primary tracking-[0.3em] mb-4">2008 - 2020</div>
+<h4 class="text-2xl font-bold text-white mb-2 hover-green transition-colors">Secondary (CBSE)</h4>
+<p class="text-neutral-400 font-medium mb-4">Deens Academy</p>
+<div class="p-4 bg-white/5 rounded-xl border border-white/5 flex items-center gap-4">
+<span class="text-primary font-bold">94.4%</span>
+<div class="h-4 w-px bg-white/10"></div>
+<span class="text-xs text-neutral-500 uppercase tracking-widest">Academic Excellence</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Horizontal Projects Section -->
+<section class="horizontal-scroll-container" id="projects">
+<div class="sticky-wrapper">
+<div class="absolute top-0 md:top-20 left-0 w-full px-8 md:px-16 z-20">
+<h2 class="font-headline text-5xl md:text-7xl font-bold text-primary-neon uppercase hover-green transition-colors text-left pt-12 md:pt-0">
+<span class="typing-target" data-text="PROJECTS"></span><span class="typing-cursor">|</span>
+</h2>
+</div>
+<div class="absolute left-0 w-full flex justify-center pointer-events-none overflow-hidden">
+<h3 class="font-headline text-[20vw] font-black text-white/[0.02] whitespace-nowrap leading-none select-none">FEATURED WORK</h3>
+</div>
+<div class="project-track mt-40 md:mt-20" id="project-track">
+<!-- Project 1 -->
+<div class="project-card nav-link group" onclick="openModal('Music Maestro', 'AI-curated adaptive music experience engine.')">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuARgG9ISLJI9yFCskESVmqjyw-L-1JJmnD0jpc2fCZUUzsgdEHNyYN_JZa5Ij5HrpFlsc6xZTTquOebim2YBCW5r7YwBq0JmuXBjWN7sR2OzRc9SpSOAfYxNUXkWOW3s5yrXFWvHTpf_MAKeKqtgwwvsICVe4B2KrORA6VMgL_bzKENbsAB5DaTw1HgTsbnpSEoVYr2o3JdQO8IBY-w2uBrMIGU9wRN0jICLY7uPFJv9SLuumXIO7G3InqjoKsLAB9YDj_BfqYTey8"/>
+<div class="project-overlay">
+<h4 class="text-4xl font-headline font-bold text-white mb-2 group-hover:text-primary transition-colors">Music Maestro</h4>
+<p class="text-neutral-300 mb-8 text-sm">AI-curated adaptive music experience engine.</p>
+<div class="flex items-center gap-2 text-primary text-[10px] font-bold uppercase tracking-[0.3em]">
+                                Click to Interact <span class="material-symbols-outlined text-sm">north_east</span>
+</div>
+</div>
+</div>
+<!-- Project 2 -->
+<div class="project-card nav-link group" onclick="openModal('Summarix', 'LLM-powered executive information distillation tool.')">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBO-Fotswg_2rY9lgPPggsuydazGacK0-iV_b8d3jdUf4h44PrwYjEjEkrKjN0nLJMzu6YosHkuK4bzQwAO85_bWOeJNHZD_ybTtiFeu7SgowvuXB5SUeD1E9FVuzyvQZwED4aovAF9NUdq26EKvRH_eM9gBbC3qa8Gwu4BUu6a7e_KGSTB9FxAnYq8C8NW3hSqFe7G1s_62jpKN-DXasQQAjPnjsqMKjcGEs0TShCjpRvb_jhgFgEjfTWrfN2F_7Fi1gJaIosnXg8"/>
+<div class="project-overlay">
+<h4 class="text-4xl font-headline font-bold text-white mb-2 group-hover:text-primary transition-colors">Summarix</h4>
+<p class="text-neutral-300 mb-8 text-sm">LLM-powered executive information distillation tool.</p>
+<div class="flex items-center gap-2 text-primary text-[10px] font-bold uppercase tracking-[0.3em]">
+                                Click to Interact <span class="material-symbols-outlined text-sm">north_east</span>
+</div>
+</div>
+</div>
+<!-- Project 3 -->
+<div class="project-card nav-link group" onclick="openModal('Lane Detection', 'Computer vision pipeline for navigation.')">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwK3xo5b_GQYEQ-wrJTFIg0ICxFWlqv7tmhw1ByOUWkK7R9_tDcDEwLRnBTdNni9x36ykxlrcmVlI4jTVBe4u-NM1A4BBPO8FA-wUXK0aNK5QEE-lSMn2BpxEeEqe9NxKhlfx4NOAYNuRvqEIk-_EJQN3wI5Z1KDNOMHac76XLqlThddY0vuJ4S1XH71pWM-qM9VlxkNYaxLXC3zumBvVwp1iwTNjnCQ5aU7LWRMTl0sBnWJm1gRrHPsjalRE0-uvUWzRRxyBdqXo"/>
+<div class="project-overlay">
+<h4 class="text-4xl font-headline font-bold text-white mb-2 group-hover:text-primary transition-colors">Lane Detection</h4>
+<p class="text-neutral-300 mb-8 text-sm">Computer vision pipeline for navigation.</p>
+<div class="flex items-center gap-2 text-primary text-[10px] font-bold uppercase tracking-[0.3em]">
+                                Click to Interact <span class="material-symbols-outlined text-sm">north_east</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Certifications -->
+<section class="py-32 px-8 bg-surface border-t border-white/5">
+<div class="max-w-7xl mx-auto">
+<h2 class="font-headline text-3xl md:text-5xl font-bold tracking-[0.2em] text-primary-neon uppercase mb-16 reveal hover-green transition-colors inline-block">
+<span class="typing-target" data-text="INDUSTRY CERTIFICATIONS"></span><span class="typing-cursor">|</span>
+</h2>
+<div class="flex gap-8 overflow-x-auto pb-12 reveal scroll-smooth" id="cert-container">
+<a class="nav-link flex-shrink-0 w-80 p-8 bg-white/5 border border-white/5 rounded-2xl hover:border-primary/40 transition-all" href="#">
+<div class="text-[10px] font-bold text-primary mb-4 tracking-[0.2em]">MICROSOFT</div>
+<h4 class="text-white font-bold mb-2 group-hover:text-primary">Azure AI Fundamentals (AI-900)</h4>
+<p class="text-xs text-neutral-500">Credential ID: AZ-AI900-SUY</p>
+</a>
+<a class="nav-link flex-shrink-0 w-80 p-8 bg-white/5 border border-white/5 rounded-2xl hover:border-primary/40 transition-all" href="#">
+<div class="text-[10px] font-bold text-primary mb-4 tracking-[0.2em]">AWS</div>
+<h4 class="text-white font-bold mb-2">AWS Cloud Practitioner</h4>
+<p class="text-xs text-neutral-500">Amazon Web Services Foundations</p>
+</a>
+<a class="nav-link flex-shrink-0 w-80 p-8 bg-white/5 border border-white/5 rounded-2xl hover:border-primary/40 transition-all" href="#">
+<div class="text-[10px] font-bold text-primary mb-4 tracking-[0.2em]">GOOGLE</div>
+<h4 class="text-white font-bold mb-2">Project Management Foundations</h4>
+<p class="text-xs text-neutral-500">Agile &amp; Waterfall Methodologies</p>
+</a>
+<a class="nav-link flex-shrink-0 w-80 p-8 bg-white/5 border border-white/5 rounded-2xl hover:border-primary/40 transition-all" href="#">
+<div class="text-[10px] font-bold text-primary mb-4 tracking-[0.2em]">U. OF ILLINOIS</div>
+<h4 class="text-white font-bold mb-2">Digital Media &amp; Marketing</h4>
+<p class="text-xs text-neutral-500">Analytics and Consumer Behavior</p>
+</a>
+</div>
+</div>
+</section>
+</main>
+<footer class="bg-[#050505] py-40 px-8 border-t border-white/5" id="contact">
+<div class="max-w-7xl mx-auto">
+<div class="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-24 gap-12 reveal">
+<div>
+<h3 class="text-primary font-bold tracking-[0.4em] uppercase mb-4">Ready for impact</h3>
+<p class="text-neutral-400 font-medium mb-8 max-w-md">I'm currently open to full-time roles, contracts, and collaborations.</p>
+<h2 class="font-headline text-7xl md:text-9xl font-black text-white leading-[0.9] hover-green transition-colors">LET'S<br/>CONNECT.</h2>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full lg:max-w-xl">
+<a class="nav-link p-6 bg-white/5 border border-white/10 rounded-xl hover:border-primary transition-all flex flex-col gap-4 group" href="https://linkedin.com/in/suyash-agrawal-mntta" target="_blank">
+<svg class="w-6 h-6 fill-primary" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"></path></svg>
+<span class="text-sm font-bold text-white uppercase tracking-widest group-hover:text-primary transition-colors">LinkedIn</span>
+</a>
+<a class="nav-link p-6 bg-white/5 border border-white/10 rounded-xl hover:border-primary transition-all flex flex-col gap-4 group" href="https://github.com/suyash-agrawal-mntta" target="_blank">
+<svg class="w-6 h-6 fill-primary" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path></svg>
+<span class="text-sm font-bold text-white uppercase tracking-widest group-hover:text-primary transition-colors">GitHub</span>
+</a>
+<a class="nav-link p-6 bg-white/5 border border-white/10 rounded-xl hover:border-primary transition-all flex flex-col gap-4 group" href="mailto:suyash.mntta@gmail.com">
+<span class="material-symbols-outlined text-primary text-3xl">mail</span>
+<span class="text-sm font-bold text-white uppercase tracking-widest group-hover:text-primary transition-colors">Email</span>
+</a>
+<a class="nav-link p-6 bg-white/5 border border-white/10 rounded-xl hover:border-primary transition-all flex flex-col gap-4 group" href="tel:+919981046888">
+<span class="material-symbols-outlined text-primary text-3xl">call</span>
+<div class="flex flex-col">
+<span class="text-sm font-bold text-white uppercase tracking-widest group-hover:text-primary transition-colors">Phone</span>
+<span class="text-[10px] text-neutral-500 mt-1">(+91) 99810 46888</span>
+</div>
+</a>
+</div>
+</div>
+<div class="mt-32 pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center text-[10px] tracking-[0.4em] text-neutral-600 uppercase">
+<div>© 2026 SUYASH AGRAWAL. ALL RIGHTS RESERVED.</div>
+<div class="mt-4 md:mt-0 hover-green transition-colors">DESIGNED FOR INNOVATION &amp; SCALE.</div>
+</div>
+</div>
+</footer>
+<!-- Project Modal -->
+<div class="fixed inset-0 z-[100] hidden" id="project-modal">
+<div class="absolute inset-0 bg-black/95 backdrop-blur-2xl" onclick="closeModal()"></div>
+<div class="relative w-full h-full flex items-center justify-center p-8">
+<div class="bg-surface-variant border border-white/10 w-full max-w-6xl h-[85vh] rounded-3xl overflow-hidden flex flex-col shadow-2xl">
+<div class="flex justify-between items-center p-8 border-b border-white/5">
+<h3 class="text-3xl font-headline font-bold text-white" id="modal-title">Project Name</h3>
+<div class="flex gap-4">
+<button class="nav-link px-6 py-2 bg-white/10 text-white text-xs font-bold uppercase rounded-lg hover:bg-white/20 transition-all flex items-center gap-2">
+                            Open In New Tab <span class="material-symbols-outlined text-sm">open_in_new</span>
+</button>
+<button class="nav-link w-10 h-10 flex items-center justify-center bg-red-500/20 text-red-500 rounded-lg hover:bg-red-500/30 transition-all" onclick="closeModal()">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+</div>
+<div class="flex-1 p-12 overflow-y-auto">
+<p class="text-xl text-neutral-400 mb-12 max-w-3xl leading-relaxed" id="modal-desc"></p>
+<div class="aspect-video bg-black/40 rounded-2xl border border-white/5 flex items-center justify-center text-neutral-600 italic">
+<div class="text-center">
+<span class="material-symbols-outlined text-6xl mb-4">terminal</span>
+<p>Interactive Emulator Placeholder</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+        // Cursor Movement
+        const cursor = document.getElementById('custom-cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        const interactiveElements = document.querySelectorAll('.nav-link, a, button, .hover-green, .project-card, .theme-pill');
+        interactiveElements.forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hovering'));
+        });
+
+        // Dynamic Typing
+        function typeEffect(element, text, speed = 80) {
+            let i = 0;
+            const target = element;
+            target.innerHTML = '';
+            const interval = setInterval(() => {
+                if (i < text.length) {
+                    target.innerHTML += text.charAt(i);
+                    i++;
+                } else {
+                    clearInterval(interval);
+                }
+            }, speed);
+        }
+
+        const typeObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const target = entry.target.querySelector('.typing-target') || (entry.target.classList.contains('typing-target') ? entry.target : null);
+                    if (target && !target.dataset.typed) {
+                        typeEffect(target, target.dataset.text);
+                        target.dataset.typed = 'true';
+                    }
+                }
+            });
+        }, { threshold: 0.2 });
+
+        document.querySelectorAll('.typing-target').forEach(el => typeObserver.observe(el));
+
+        // Scroll Effects
+        const progressLine = document.getElementById('timeline-progress');
+        const projectTrack = document.getElementById('project-track');
+        const horizontalSection = document.querySelector('.horizontal-scroll-container');
+        const topProgressBar = document.getElementById('top-progress-bar');
+        const scrollGearImg = document.getElementById('scroll-gear-img');
+
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const globalScrollPercent = Math.min(Math.max(scrolled / totalHeight, 0), 1);
+
+            // Top Horizontal Progress Bar & Rapidly Rotating Traveling Gear
+            topProgressBar.style.width = (globalScrollPercent * 100) + '%';
+            scrollGearImg.style.transform = `rotate(${scrolled * 2.5}deg)`;
+
+            // Timeline Logic
+            const timelineContainer = document.getElementById('timeline-container');
+            if (timelineContainer) {
+                const timelineRect = timelineContainer.getBoundingClientRect();
+                const viewportCenter = window.innerHeight / 2;
+
+                if (timelineRect.top < viewportCenter) {
+                    const progress = Math.min(Math.max(viewportCenter - timelineRect.top, 0), timelineRect.height);
+                    progressLine.style.height = progress + 'px';
+
+                    const nodes = document.querySelectorAll('.milestone-node');
+                    const rows = document.querySelectorAll('.timeline-row');
+                    rows.forEach((row, idx) => {
+                        const rowRect = row.getBoundingClientRect();
+                        const rowCenter = rowRect.top + (rowRect.height / 2);
+                        if (rowCenter < viewportCenter + 50 && rowCenter > viewportCenter - 250) {
+                            nodes[idx].classList.add('active');
+                            row.classList.add('active');
+                        } else {
+                            nodes[idx].classList.remove('active');
+                            row.classList.remove('active');
+                        }
+                    });
+                }
+            }
+
+            // Horizontal Project Scroll
+            const horizRect = horizontalSection.getBoundingClientRect();
+            if (horizRect.top <= 0 && horizRect.bottom >= window.innerHeight) {
+                const horizScrollPercent = (-horizRect.top) / (horizRect.height - window.innerHeight);
+                const totalScroll = projectTrack.scrollWidth - window.innerWidth + (window.innerWidth * 0.2);
+                projectTrack.style.transform = `translateX(-${horizScrollPercent * totalScroll}px)`;
+            }
+        });
+
+        // Modal Logic
+        function openModal(title, desc) {
+            document.getElementById('modal-title').textContent = title;
+            document.getElementById('modal-desc').textContent = desc;
+            const modal = document.getElementById('project-modal');
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('project-modal');
+            modal.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        // Reveal Animations
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+    </script>
+</body></html>
