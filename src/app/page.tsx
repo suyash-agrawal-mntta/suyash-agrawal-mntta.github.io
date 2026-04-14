@@ -92,9 +92,11 @@ function MultiTypingText({
     }
 
     if (subIndex === 0 && reverse) {
-      setReverse(false);
-      setIndex((prev) => (prev + 1) % texts.length);
-      return;
+      const timeout = setTimeout(() => {
+        setReverse(false);
+        setIndex((prev) => (prev + 1) % texts.length);
+      }, 0);
+      return () => clearTimeout(timeout);
     }
 
     const timeout = setTimeout(() => {
@@ -250,20 +252,23 @@ function ProjectModal({
    ═══════════════════════════════════════════════════ */
 export default function Page() {
   /* ── Theme ── */
-  const [theme, setTheme] = useState<Theme>("default");
+  const [theme, setTheme] = useState<Theme>(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("theme");
+      if (saved && THEMES.includes(saved as Theme)) {
+        return saved as Theme;
+      }
+    }
+    return "default";
+  });
 
   useEffect(() => {
-    const saved = localStorage.getItem("theme") as Theme | null;
-    if (saved && THEMES.includes(saved)) {
-      setTheme(saved);
-      document.documentElement.setAttribute("data-theme", saved);
-    }
-  }, []);
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+  }, [theme]);
 
   const setSpecificTheme = useCallback((next: Theme) => {
     setTheme(next);
-    document.documentElement.setAttribute("data-theme", next);
-    localStorage.setItem("theme", next);
   }, []);
 
   const [activeSection, setActiveSection] = useState("");
@@ -303,7 +308,7 @@ export default function Page() {
 
   /* ── Refs for imperative scroll logic (exact Stitch JS) ── */
   const progressBarRef = useRef<HTMLDivElement>(null);
-  const gearRef = useRef<HTMLImageElement>(null);
+  const gearRef = useRef<SVGSVGElement>(null);
   const timelineContainerRef = useRef<HTMLDivElement>(null);
   const timelineProgressRef = useRef<HTMLDivElement>(null);
   const horizontalSectionRef = useRef<HTMLElement>(null);
