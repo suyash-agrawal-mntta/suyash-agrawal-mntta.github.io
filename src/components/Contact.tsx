@@ -13,7 +13,7 @@ export default function Contact() {
           className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-24 gap-12"
         >
           <div>
-            <h3 className="text-[var(--accent-primary)] font-bold tracking-[0.4em] uppercase mb-4 text-xs">Ready for impact</h3>
+            <h3 className="text-[var(--accent-primary)] font-bold tracking-[0.4em] uppercase mb-4 text-xs">Ready for impact?</h3>
             <p className="text-text-main/70 font-medium mb-8 max-w-md">I'm currently open to full-time roles, contracts, and collaborations.</p>
             <h2 className="font-headline text-6xl md:text-8xl lg:text-9xl font-black text-text-main leading-[0.9] hover:text-[var(--accent-primary)] transition-colors duration-500">LET'S<br/>CONNECT.</h2>
           </div>

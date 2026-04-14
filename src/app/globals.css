@@ -8,6 +8,8 @@
   --bg: #121212;
   --primary: #f3ffca;
   --text: #ffffff;
+  --text-muted: #a3a3a3;
+  --border-color: rgba(255, 255, 255, 0.1);
   --surface: #0a0a0a;
   --surface-variant: #1a1a1a;
   --surface-dark: #080808;
@@ -15,35 +17,40 @@
 }
 
 [data-theme='lavender'] {
-  --bg: #a78bfa;
-  --primary: #f3e8ff;
-  --text: #1e1b4b;
-  --surface: #9061f9;
-  --surface-variant: #7c3aed;
-  --surface-dark: #8b5cf6;
-  --surface-darker: #7c3aed;
+  --bg: #c4b5fd;            /* Soft pastel lavender */
+  --primary: #3b0764;       /* Very deep violet accent */
+  --text: #1a0533;          /* Near-black purple text */
+  --text-muted: #44337a;    /* Dark slate-purple muted */
+  --border-color: rgba(26, 5, 51, 0.15);
+  --surface: #d8d0fe;       /* Lighter lavender surface */
+  --surface-variant: #ede9fe; /* Very light lavender */
+  --surface-dark: #b4a0f8;
+  --surface-darker: #a78bfa;
 }
 
-[data-theme='terracotta'] {
-  --bg: #e2725b;
-  --primary: #2d3748;
-  --text: #f7fafc;
-  --surface: #d4644e;
-  --surface-variant: #c9604b;
-  --surface-dark: #c05640;
-  --surface-darker: #a84a38;
+[data-theme='catppuccin'] {
+  --bg: #efe0cf;            /* Warm latte cream */
+  --primary: #8b5523;       /* Rich coffee brown accent */
+  --text: #4a3628;          /* Dark roast text */
+  --text-muted: #7c6558;    /* Mocha muted text */
+  --border-color: rgba(74, 54, 40, 0.12);
+  --surface: #e6d5c3;       /* Café au lait surface */
+  --surface-variant: #f5ead9; /* Cream foam */
+  --surface-dark: #d4c0ab;  /* Cappuccino froth */
+  --surface-darker: #c9b197; /* Warm caramel */
 }
 
 /* ═══════════════════════════════════════════════════
    2. GLOBAL RESETS & BODY
    ═══════════════════════════════════════════════════ */
-@media (hover: hover) and (pointer: fine) {
+@media (hover: hover) {
   * { cursor: none !important; }
 }
+* { cursor: none !important; }
 
 body {
   background-color: var(--bg);
-  color: #e0e0e0;
+  color: var(--text);
   font-family: var(--font-inter, 'Inter'), sans-serif;
   overflow-x: hidden;
   transition: background-color 0.4s ease, color 0.4s ease;
@@ -89,8 +96,46 @@ body {
   transition: opacity 0.2s ease;
   box-shadow: 0 0 10px var(--primary);
 }
+#cursor-dot-inner::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--primary);
+  border-radius: 50%;
+  opacity: 0.6;
+}
 .hovering #cursor-img { transform: rotate(0deg); }
 .hovering #cursor-dot-inner { opacity: 1; }
+
+#custom-cursor.can-grab #cursor-img,
+#custom-cursor.is-grabbing #cursor-img {
+  opacity: 0;
+  transform: scale(0.5);
+}
+#custom-cursor.can-grab #cursor-dot-inner,
+#custom-cursor.is-grabbing #cursor-dot-inner {
+  opacity: 0;
+}
+#custom-cursor.can-grab::after {
+  content: 'back_hand';
+  font-family: 'Material Symbols Outlined', sans-serif;
+  font-size: 28px;
+  color: var(--primary);
+  position: absolute;
+  transition: transform 0.2s ease;
+}
+#custom-cursor.is-grabbing::after {
+  content: 'pan_tool';
+  font-family: 'Material Symbols Outlined', sans-serif;
+  font-size: 28px;
+  color: var(--primary);
+  position: absolute;
+  transform: scale(0.85);
+}
 
 /* ═══════════════════════════════════════════════════
    5. TOP PROGRESS BAR — Exact Stitch
@@ -113,19 +158,19 @@ body {
 }
 #scroll-gear-container {
   position: absolute;
-  right: -20px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  right: -26px;
+  top: 50%; /* Center precisely down from the 2px progress bar */
+  width: 28px;
+  height: 14px; /* Bound height strictly to 14px to clip anything representing the top half of the gear */
+  overflow: hidden;
+  color: var(--primary);
 }
-#scroll-gear-img {
-  width: 32px;
-  height: 32px;
-  filter: invert(93%) sepia(21%) saturate(452%) hue-rotate(24deg) brightness(107%) contrast(101%);
+#scroll-gear-svg {
+  position: absolute;
+  top: -14px; /* Shunt the 28x28 svg upward exactly halfway so the central axis rests exactly at the top boundary */
+  left: 0;
+  width: 28px;
+  height: 28px;
 }
 
 /* ═══════════════════════════════════════════════════
@@ -187,6 +232,17 @@ body {
   transition: height 0.1s ease-out;
 }
 .milestone-node {
+  position: absolute !important;
+  left: 50% !important;
+  top: 50% !important;
+  translate: -50% -50% !important;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border-width: 2px;
+  border-style: solid;
+  border-color: var(--primary);
+  background: var(--surface);
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   z-index: 10;
   pointer-events: none;
@@ -199,7 +255,7 @@ body {
   filter: drop-shadow(0 0 10px rgba(243, 255, 202, 0.1));
 }
 .milestone-node.active {
-  transform: translate(-50%, -50%) scale(1.8);
+  scale: 1.8;
   background: var(--primary);
   box-shadow: 0 0 20px var(--primary);
 }
@@ -232,14 +288,21 @@ body {
    11. PROJECT CARDS — Exact Stitch
    ═══════════════════════════════════════════════════ */
 .project-card {
-  width: 450px;
-  height: 600px;
+  width: 640px;
+  height: 360px;
   flex-shrink: 0;
   position: relative;
   border-radius: 2rem;
   overflow: hidden;
   background: #111;
   border: 1px solid rgba(255,255,255,0.05);
+}
+@media (max-width: 768px) {
+  .project-card {
+    width: 85vw;
+    height: calc(85vw / (16/9));
+    border-radius: 1.5rem;
+  }
 }
 .project-overlay {
   position: absolute;
@@ -273,24 +336,17 @@ body {
   transition: all 0.3s ease;
 }
 .theme-dot-1 { background: #f3ffca; }
-.theme-dot-2 { background: #e0e7ff; }
-.theme-dot-3 { background: #fca5a5; }
+.theme-dot-2 { background: #c4b5fd; }
+.theme-dot-3 { background: #c9956a; }
 
 /* ═══════════════════════════════════════════════════
-   13. CERT SCROLLBAR — Exact Stitch
+   13. CERT SCROLLBAR — Replacing with hidden scrollbar for drag-to-scroll
    ═══════════════════════════════════════════════════ */
-#cert-container::-webkit-scrollbar { height: 4px; }
-#cert-container::-webkit-scrollbar-track {
-  background: rgba(255,255,255,0.02);
-  border-radius: 10px;
-}
-#cert-container::-webkit-scrollbar-thumb {
-  background: var(--primary);
-  border-radius: 10px;
-}
+#cert-container::-webkit-scrollbar { display: none; }
 #cert-container {
-  scrollbar-width: thin;
-  scrollbar-color: var(--primary) transparent;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  cursor: none !important;
 }
 
 /* ═══════════════════════════════════════════════════

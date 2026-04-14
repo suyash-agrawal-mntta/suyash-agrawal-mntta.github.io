@@ -14,25 +14,22 @@ import * as THREE from "three";
 /* ═══════════════════════════════════════════════════
    CONSTANTS — Exact Stitch hex codes
    ═══════════════════════════════════════════════════ */
-const THEMES = ["default", "lavender", "terracotta"] as const;
+const THEMES = ["default", "lavender", "catppuccin"] as const;
 type Theme = (typeof THEMES)[number];
 
 const ACCENT_HEX: Record<Theme, string> = {
   default: "#f3ffca",
-  lavender: "#f3e8ff",
-  terracotta: "#2d3748",
+  lavender: "#3b0764",
+  catppuccin: "#8b5523",
 };
 
-const GEAR_IMG =
-  "https://lh3.googleusercontent.com/aida/ADBb0ugy3JLjoWQ_oCIfr-BgKZq_DK3IIwhPSN3z3s7WDLsyfR-DhgVD2LRXcxJ9c1UcX40e7W99NDca-q2mGZMd9KNDawK4f5YjGgRUy3CZO0di2rwBe-H_3CpozBMjKyVietuM4xcS8jVBcfC-hAkHDml_97XOpc_sXomdd8i-T21rkmcAnpq8CEdH_cYUcMr2-p2jrjcX1wgCQFYCgRcVS-QxPR2PQrnvngCuCYMsgcZgzSGjO8wZwRjbZI3avw_lUylI0LWozuMO-w";
-const CURSOR_IMG =
-  "https://lh3.googleusercontent.com/aida/ADBb0ugBrHTDnn47dwLzkZDMKNc--bWExqWT-q2DftNed9HEKvPTRHHg4qKzJz6lPpZ3Wkz4_53FtX0SFohfkmgrlL9ftachF0ysImPHZL_NB_FwndGR3alJxlCLZY7SZMbCO6lnarqDnhulEr8osuek0U7mFlloXLSwCqdfK43kZA3UHqw8_E_ZuGECnwYs4YHxevwYVf5SKN3o8JDFQ6WRlxzYiZT8Ve5utW0NZsSrhtxwxjhSpRsNA8-HJJHQBgcswMMoLqbehFTa3A";
-const HERO_IMG =
-  "https://lh3.googleusercontent.com/aida/ADBb0ujQac-DUspTADqW5CNhSBgPDCDEAWWqvgbcPpgDUK6buvWS-MNTrutLlmzO17LT26fB97I6yzEW_y8rpuThH8RwLn2NTF0YltlnGcYs9N7nYDxzl7ru5CoFiZpbcYeVD5Zf9lTicwvbpZZOTiYDNYNgqlF8Poe-4i3OXhP8zKNo8PFqOtTQzlxl69mL6NL1rMyLAQ6OScafh-69tZMt2W43NmrrrvY-oxsE4t9mWmWko2ytADTqe-py-aSST4Irb07QEhDeNBpB9A";
+const GEAR_IMG = "/assets/gear.png";
+const CURSOR_IMG = "/assets/cursor.png";
+const HERO_IMG = "/assets/suyash_photo.jpg";
 const PROJECT_IMGS = [
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuARgG9ISLJI9yFCskESVmqjyw-L-1JJmnD0jpc2fCZUUzsgdEHNyYN_JZa5Ij5HrpFlsc6xZTTquOebim2YBCW5r7YwBq0JmuXBjWN7sR2OzRc9SpSOAfYxNUXkWOW3s5yrXFWvHTpf_MAKeKqtgwwvsICVe4B2KrORA6VMgL_bzKENbsAB5DaTw1HgTsbnpSEoVYr2o3JdQO8IBY-w2uBrMIGU9wRN0jICLY7uPFJv9SLuumXIO7G3InqjoKsLAB9YDj_BfqYTey8",
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuBO-Fotswg_2rY9lgPPggsuydazGacK0-iV_b8d3jdUf4h44PrwYjEjEkrKjN0nLJMzu6YosHkuK4bzQwAO85_bWOeJNHZD_ybTtiFeu7SgowvuXB5SUeD1E9FVuzyvQZwED4aovAF9NUdq26EKvRH_eM9gBbC3qa8Gwu4BUu6a7e_KGSTB9FxAnYq8C8NW3hSqFe7G1s_62jpKN-DXasQQAjPnjsqMKjcGEs0TShCjpRvb_jhgFgEjfTWrfN2F_7Fi1gJaIosnXg8",
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuBwK3xo5b_GQYEQ-wrJTFIg0ICxFWlqv7tmhw1ByOUWkK7R9_tDcDEwLRnBTdNni9x36ykxlrcmVlI4jTVBe4u-NM1A4BBPO8FA-wUXK0aNK5QEE-lSMn2BpxEeEqe9NxKhlfx4NOAYNuRvqEIk-_EJQN3wI5Z1KDNOMHac76XLqlThddY0vuJ4S1XH71pWM-qM9VlxkNYaxLXC3zumBvVwp1iwTNjnCQ5aU7LWRMTl0sBnWJm1gRrHPsjalRE0-uvUWzRRxyBdqXo",
+  "/assets/project-music-maestro.jpg",
+  "/assets/project-summarix.jpg",
+  "/assets/project-lane-detection.jpg",
 ];
 
 /* ═══════════════════════════════════════════════════
@@ -145,13 +142,13 @@ function ProjectModal({
     >
       <div className="absolute inset-0 modal-backdrop" onClick={onClose} />
       <div className="relative w-full h-full flex items-center justify-center p-8">
-        <div className="bg-[var(--surface-variant)] border border-white/10 w-full max-w-6xl h-[85vh] rounded-3xl overflow-hidden flex flex-col shadow-2xl">
-          <div className="flex justify-between items-center p-8 border-b border-white/5">
+        <div className="bg-[var(--surface-variant)] border border-[var(--border-color)] w-full max-w-6xl h-[85vh] rounded-3xl overflow-hidden flex flex-col shadow-2xl">
+          <div className="flex justify-between items-center p-8 border-b border-[var(--border-color)]">
             <h3 className="text-3xl font-headline font-bold text-themed">
               {title}
             </h3>
             <div className="flex gap-4">
-              <button className="nav-link px-6 py-2 bg-white/10 text-white text-xs font-bold uppercase rounded-lg hover:bg-white/20 transition-all flex items-center gap-2">
+              <button className="nav-link px-6 py-2 bg-[var(--border-color)] text-[var(--text)] text-xs font-bold uppercase rounded-lg hover:bg-white/20 transition-all flex items-center gap-2">
                 Open In New Tab{" "}
                 <span className="material-symbols-outlined text-sm">
                   open_in_new
@@ -166,10 +163,10 @@ function ProjectModal({
             </div>
           </div>
           <div className="flex-1 p-12 overflow-y-auto">
-            <p className="text-xl text-neutral-400 mb-12 max-w-3xl leading-relaxed">
+            <p className="text-xl text-[var(--text-muted)] mb-12 max-w-3xl leading-relaxed">
               {desc}
             </p>
-            <div className="aspect-video bg-black/40 rounded-2xl border border-white/5 flex items-center justify-center text-neutral-600 italic">
+            <div className="aspect-video bg-black/40 rounded-2xl border border-[var(--border-color)] flex items-center justify-center text-[var(--text-muted)] italic">
               <div className="text-center">
                 <span className="material-symbols-outlined text-6xl mb-4 block">
                   terminal
@@ -199,13 +196,38 @@ export default function Page() {
     }
   }, []);
 
-  const cycleTheme = useCallback(() => {
-    setTheme((prev) => {
-      const next = THEMES[(THEMES.indexOf(prev) + 1) % THEMES.length];
-      document.documentElement.setAttribute("data-theme", next);
-      localStorage.setItem("theme", next);
-      return next;
-    });
+  const setSpecificTheme = useCallback((next: Theme) => {
+    setTheme(next);
+    document.documentElement.setAttribute("data-theme", next);
+    localStorage.setItem("theme", next);
+  }, []);
+
+  const [activeSection, setActiveSection] = useState("");
+
+  useEffect(() => {
+    const sections = ["about", "skills", "experience", "projects"];
+    
+    const handleScroll = () => {
+      // Use a detection line roughly 1/3 down the viewport
+      const scrollPosition = window.scrollY + window.innerHeight / 3;
+      
+      let current = "";
+      for (const section of sections) {
+        const el = document.getElementById(section);
+        if (el) {
+          const { offsetTop, offsetHeight } = el;
+          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+            current = section;
+          }
+        }
+      }
+      setActiveSection(current);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll(); // Trigger once on mount
+
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   /* ── Modal ── */
@@ -231,12 +253,12 @@ export default function Page() {
         document.documentElement.scrollHeight - window.innerHeight;
       const globalPercent = Math.min(Math.max(scrolled / totalHeight, 0), 1);
 
-      /* Top progress bar width */
+      /* Top progress bar width - bounded to prevent gear overflow */
       if (progressBarRef.current) {
-        progressBarRef.current.style.width = globalPercent * 100 + "%";
+        progressBarRef.current.style.width = `calc(${globalPercent * 100}% - 36px)`;
       }
 
-      /* Gear rotation: scrolled * 2.5 degrees (exact Stitch) */
+      /* Gear rotation: scrolled * 2.5 degrees */
       if (gearRef.current) {
         gearRef.current.style.transform = `rotate(${scrolled * 2.5}deg)`;
       }
@@ -289,24 +311,77 @@ export default function Page() {
     const cursor = cursorRef.current;
     if (!cursor) return;
 
-    const move = (e: MouseEvent) => {
+    const move = (e: MouseEvent | PointerEvent) => {
       cursor.style.left = e.clientX + "px";
       cursor.style.top = e.clientY + "px";
     };
 
     const hover = (e: MouseEvent) => {
-      const t = (e.target as HTMLElement).closest(
+      const target = e.target as HTMLElement;
+      const t = target.closest(
         ".nav-link, a, button, .hover-green, .project-card, .theme-pill"
       );
       if (t) cursor.classList.add("hovering");
       else cursor.classList.remove("hovering");
+
+      // Grab state only if NOT hovering a clickable element
+      if (target.closest("#cert-container, #floating-action-bar") && !t) {
+        cursor.classList.add("can-grab");
+      } else {
+        cursor.classList.remove("can-grab");
+      }
     };
 
-    document.addEventListener("mousemove", move);
+    document.addEventListener("pointermove", move);
     document.addEventListener("mouseover", hover);
     return () => {
-      document.removeEventListener("mousemove", move);
+      document.removeEventListener("pointermove", move);
       document.removeEventListener("mouseover", hover);
+    };
+  }, []);
+
+  /* ── Drag to scroll for cert container ── */
+  useEffect(() => {
+    const slider = document.getElementById("cert-container");
+    if (!slider) return;
+
+    let isDown = false;
+    let startX: number;
+    let scrollLeft: number;
+
+    const onMouseDown = (e: MouseEvent) => {
+      isDown = true;
+      startX = e.pageX - slider.offsetLeft;
+      scrollLeft = slider.scrollLeft;
+      const cursor = document.getElementById("custom-cursor");
+      if (cursor) cursor.classList.add("is-grabbing");
+    };
+
+    const endDrag = () => {
+      isDown = false;
+      const cursor = document.getElementById("custom-cursor");
+      if (cursor) cursor.classList.remove("is-grabbing");
+    };
+
+    const onMouseMove = (e: MouseEvent) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - slider.offsetLeft;
+      // Scroll speed multiplier
+      const walk = (x - startX) * 2; 
+      slider.scrollLeft = scrollLeft - walk;
+    };
+
+    slider.addEventListener("mousedown", onMouseDown);
+    slider.addEventListener("mouseleave", endDrag);
+    slider.addEventListener("mouseup", endDrag);
+    slider.addEventListener("mousemove", onMouseMove);
+
+    return () => {
+      slider.removeEventListener("mousedown", onMouseDown);
+      slider.removeEventListener("mouseleave", endDrag);
+      slider.removeEventListener("mouseup", endDrag);
+      slider.removeEventListener("mousemove", onMouseMove);
     };
   }, []);
 
@@ -324,13 +399,9 @@ export default function Page() {
       <div id="top-progress-container">
         <div id="top-progress-bar" ref={progressBarRef}>
           <div id="scroll-gear-container">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              alt="Progress Gear"
-              id="scroll-gear-img"
-              ref={gearRef}
-              src={GEAR_IMG}
-            />
+            <svg ref={gearRef} id="scroll-gear-svg" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.49.49 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96a.49.49 0 0 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.07.62-.07.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6A3.6 3.6 0 1 1 12 8.4a3.6 3.6 0 0 1 0 7.2z"/>
+            </svg>
           </div>
         </div>
       </div>
@@ -339,47 +410,47 @@ export default function Page() {
           HEADER — Exact Stitch:
           px-8 md:px-16 py-6, glass bg, blur-lg
           ════════════════════════════════════ */}
-      <header className="fixed top-0 w-full z-50 flex justify-between items-center px-8 md:px-16 py-6 glass-header border-b border-white/5">
-        <div className="text-lg font-headline font-bold tracking-tighter text-white uppercase hover-green transition-colors cursor-pointer">
+      <header className="fixed top-0 w-full z-50 flex justify-between items-center px-8 md:px-16 py-6 glass-header border-b border-[var(--border-color)]">
+        <div 
+          className="text-lg font-headline font-bold tracking-tighter text-[var(--text)] uppercase hover-accent transition-colors cursor-pointer nav-link"
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        >
           Suyash.
         </div>
         <nav className="hidden md:flex gap-10 text-[11px] font-bold uppercase tracking-[0.2em] items-center">
           <a
-            className="nav-link text-neutral-400 hover:text-accent transition-colors"
-            href="#about"
-          >
-            About
-          </a>
-          <a
-            className="nav-link text-neutral-400 hover:text-accent transition-colors"
+            className={`nav-link hover:text-accent transition-colors ${activeSection === "skills" ? "text-accent" : "text-[var(--text-muted)]"}`}
             href="#skills"
           >
             Skills
           </a>
           <a
-            className="nav-link text-neutral-400 hover:text-accent transition-colors"
+            className={`nav-link hover:text-accent transition-colors ${activeSection === "experience" ? "text-accent" : "text-[var(--text-muted)]"}`}
             href="#experience"
           >
             Experience
           </a>
           <a
-            className="nav-link text-neutral-400 hover:text-accent transition-colors"
+            className={`nav-link hover:text-accent transition-colors ${activeSection === "projects" ? "text-accent" : "text-[var(--text-muted)]"}`}
             href="#projects"
           >
             Projects
           </a>
         </nav>
-        {/* Theme Pill — Exact Stitch HTML: 3 dots, 18×18, border-radius 50% */}
+        {/* Theme Pill — 3 direct click dots */}
         <div className="flex items-center gap-6">
-          <div className="theme-pill nav-link" onClick={cycleTheme}>
+          <div className="theme-pill">
             <div
-              className={`theme-dot theme-dot-1 ${theme === "default" ? "opacity-100 shadow-[0_0_8px_#f3ffca]" : "opacity-40"}`}
+              className={`theme-dot theme-dot-1 nav-link cursor-pointer ${theme === "default" ? "opacity-100 shadow-[0_0_8px_var(--primary)]" : "opacity-30 hover:opacity-70 transition-opacity"}`}
+              onClick={() => setSpecificTheme("default")}
             />
             <div
-              className={`theme-dot theme-dot-2 ${theme === "lavender" ? "opacity-100 shadow-[0_0_8px_#e0e7ff]" : "opacity-40"}`}
+              className={`theme-dot theme-dot-2 nav-link cursor-pointer ${theme === "lavender" ? "opacity-100 shadow-[0_0_8px_var(--primary)]" : "opacity-30 hover:opacity-70 transition-opacity"}`}
+              onClick={() => setSpecificTheme("lavender")}
             />
             <div
-              className={`theme-dot theme-dot-3 ${theme === "terracotta" ? "opacity-100 shadow-[0_0_8px_#fca5a5]" : "opacity-40"}`}
+              className={`theme-dot theme-dot-3 nav-link cursor-pointer ${theme === "catppuccin" ? "opacity-100 shadow-[0_0_8px_var(--primary)]" : "opacity-30 hover:opacity-70 transition-opacity"}`}
+              onClick={() => setSpecificTheme("catppuccin")}
             />
           </div>
         </div>
@@ -396,22 +467,30 @@ export default function Page() {
         >
           <div className="max-w-7xl w-full grid lg:grid-cols-2 gap-16 items-center">
             <div className="order-2 lg:order-1">
-              {/* Badge: px-3=12px py-1=4px text-[10px] tracking-[0.3em] rounded=4px */}
-              <Reveal className="mb-6 inline-block px-3 py-1 bg-accent-10 border border-accent-20 rounded text-[10px] font-bold tracking-[0.3em] text-accent uppercase">
-                AI Engineer &amp; Researcher
+              <Reveal className="mb-8 inline-flex items-center gap-3 px-4 py-1.5 bg-[var(--surface-variant)] border border-accent-20 rounded-full shadow-[0_0_15px_rgba(0,0,0,0.5)]">
+                <span className="w-2 h-2 rounded-full bg-[var(--primary)] animate-[pulse_1s_infinite] shadow-[0_0_10px_var(--primary)]" />
+                <span className="text-[10px] font-bold tracking-[0.1em] text-[var(--text-muted)]">
+                  Open for international relocation from July 2026
+                </span>
               </Reveal>
 
-              <h1 className="font-headline text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-primary-neon leading-none mb-8 hover-green transition-colors">
+              <h1 className="font-headline text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-primary-neon leading-none mb-4 hover-green transition-colors">
                 <TypingText text="SUYASH AGRAWAL" />
-                <span className="typing-cursor">|</span>
+                <span className="typing-cursor" />
               </h1>
+              
+              <Reveal className="mb-8">
+                <span className="text-sm md:text-base font-bold tracking-[0.5em] text-[var(--text-muted)] uppercase">
+                  AI ENGINEER
+                </span>
+              </Reveal>
 
               <Reveal>
-                <p className="text-lg md:text-xl text-neutral-400 max-w-xl leading-relaxed">
+                <p className="text-lg md:text-xl text-[var(--text-muted)] max-w-xl leading-relaxed">
                   Building resilient{" "}
-                  <span className="text-white font-medium">LLM systems</span>{" "}
+                  <span className="text-[var(--text)] font-medium">LLM systems</span>{" "}
                   and{" "}
-                  <span className="text-white font-medium">
+                  <span className="text-[var(--text)] font-medium">
                     Autonomous Agents
                   </span>
                   . Currently architecting intelligent workflows for
@@ -421,127 +500,123 @@ export default function Page() {
 
               {/* Buttons: px-8=32px py-4=16px text-xs=12px gap-6=24px mt-12=48px rounded-lg=8px */}
               <Reveal className="flex gap-6 mt-12">
-                <button className="nav-link px-8 py-4 border border-white/10 text-white text-xs font-bold uppercase tracking-widest rounded-lg hover:bg-white/5 transition-all">
-                  Download CV
-                </button>
-                <button className="nav-link px-8 py-4 bg-[var(--primary)] text-black text-xs font-bold uppercase tracking-widest rounded-lg hover:shadow-[0_0_30px_rgba(243,255,202,0.2)] transition-all">
-                  Get in Touch
-                </button>
+                <a 
+                  href="https://drive.google.com/file/d/15tSOsbyGEU08uyMGDqE_t1H5-lu2S_wt/view?usp=drive_link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="nav-link px-8 py-4 bg-[var(--primary)] text-[var(--bg)] text-xs font-bold uppercase tracking-widest rounded-lg hover:shadow-[0_0_30px_var(--primary)] transition-all inline-block"
+                >
+                View Resume
+                </a>
               </Reveal>
             </div>
 
             {/* Hero image/3D: max-w-md=448px aspect-[3/4] rounded-[2.5rem]=40px */}
             <div className="order-1 lg:order-2 flex justify-center lg:justify-end">
               <Reveal className="relative w-full max-w-md aspect-[3/4] rounded-[2.5rem] overflow-hidden hero-img-float hero-img-container">
-                <Canvas
-                  style={{ position: "absolute", inset: 0 }}
-                  camera={{ position: [0, 0, 6] }}
-                >
-                  <SceneContent accentColor={ACCENT_HEX[theme]} />
-                </Canvas>
-                <div className="absolute inset-0 bg-gradient-to-t from-[var(--surface)] via-transparent to-transparent pointer-events-none" />
+                {/* Image — initial grayscale via CSS */}
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={HERO_IMG}
+                  alt="Suyash Agrawal"
+                  className="absolute inset-0 w-full h-full object-cover z-0"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[var(--surface)] via-transparent to-transparent pointer-events-none z-20" />
               </Reveal>
             </div>
           </div>
         </section>
 
-        {/* ── SKILLS ── py-32=128px px-8=32px bg-[#080808] */}
+        {/* ── SKILLS ── py-32=128px px-8=32px bg-[var(--surface-dark)] */}
         <section
-          className="py-32 px-8 border-t border-white/5 bg-surface-dark"
+          className="py-32 px-8 border-t border-[var(--border-color)] bg-surface-dark"
           id="skills"
         >
           <div className="max-w-7xl mx-auto">
             <h2 className="font-headline text-4xl md:text-6xl font-bold text-primary-neon mb-20 hover-green transition-colors">
               <TypingText text="TECHNICAL SKILLS" />
-              <span className="typing-cursor">|</span>
+              <span className="typing-cursor" />
             </h2>
 
-            {/* Grid: p-10=40px, border-white/10, text-sm=14px, text-xs=12px, space-y-2=8px */}
+            {/* Grid: p-10=40px, border-[var(--border-color)], text-sm=14px, text-xs=12px, space-y-2=8px */}
             <Reveal>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0 border-t border-l border-white/10">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {/* AI & Automation */}
-                <div className="p-10 border-r border-b border-white/10 hover:bg-accent-5 transition-colors group">
-                  <span className="material-symbols-outlined text-accent text-4xl mb-6 block">
-                    psychology
-                  </span>
-                  <h3 className="text-sm font-bold text-white mb-4 tracking-[0.2em] uppercase">
+                <div className="p-8 bg-white/[0.02] border border-[var(--border-color)] rounded-[20px] transition-colors hover:border-[var(--border-color)]">
+                  <h3 className="text-[13px] font-bold text-accent tracking-[0.15em] mb-6 uppercase">
                     AI &amp; Automation
                   </h3>
-                  <ul className="space-y-2 text-xs text-neutral-400 font-medium">
-                    <li>LLM Orchestration</li>
-                    <li>AI Agents</li>
-                    <li>Generative AI</li>
-                    <li>Prompt Engineering</li>
-                    <li>Vercel AI SDK</li>
-                    <li>Hugging Face</li>
-                  </ul>
+                  <div className="flex flex-wrap gap-2.5">
+                    <span className="px-4 py-2 bg-[var(--border-color)] border border-[var(--border-color)] rounded-xl text-xs font-medium text-[var(--text-muted)]">LLM Orchestration</span>
+                    <span className="px-4 py-2 bg-[var(--border-color)] border border-[var(--border-color)] rounded-xl text-xs font-medium text-[var(--text-muted)]">AI Agents</span>
+                    <span className="px-4 py-2 bg-[var(--border-color)] border border-[var(--border-color)] rounded-xl text-xs font-medium text-[var(--text-muted)]">Generative AI</span>
+                    <span className="px-4 py-2 bg-[var(--border-color)] border border-[var(--border-color)] rounded-xl text-xs font-medium text-[var(--text-muted)]">Prompt Engineering</span>
+                    <span className="px-4 py-2 bg-[var(--border-color)] border border-[var(--border-color)] rounded-xl text-xs font-medium text-[var(--text-muted)]">Vercel AI SDK</span>
+                    <span className="px-4 py-2 bg-[var(--border-color)] border border-[var(--border-color)] rounded-xl text-xs font-medium text-[var(--text-muted)]">Hugging Face</span>
+                  </div>
                 </div>
+
                 {/* Languages */}
-                <div className="p-10 border-r border-b border-white/10 hover:bg-accent-5 transition-colors group">
-                  <span className="material-symbols-outlined text-accent text-4xl mb-6 block">
-                    code
-                  </span>
-                  <h3 className="text-sm font-bold text-white mb-4 tracking-[0.2em] uppercase">
+                <div className="p-8 bg-white/[0.02] border border-[var(--border-color)] rounded-[20px] transition-colors hover:border-[var(--border-color)]">
+                  <h3 className="text-[13px] font-bold text-accent tracking-[0.15em] mb-6 uppercase">
                     Languages
                   </h3>
-                  <ul className="space-y-2 text-xs text-neutral-400 font-medium">
-                    <li>TypeScript / JavaScript</li>
-                    <li>Python</li>
-                    <li>Java</li>
-                    <li>SQL</li>
-                    <li>HTML / CSS</li>
-                  </ul>
+                  <div className="flex flex-wrap gap-2.5">
+                    <span className="px-4 py-2 bg-[var(--border-color)] border border-[var(--border-color)] rounded-xl text-xs font-medium text-[var(--text-muted)]">TypeScript</span>
+                    <span className="px-4 py-2 bg-[var(--border-color)] border border-[var(--border-color)] rounded-xl text-xs font-medium text-[var(--text-muted)]">JavaScript</span>
+                    <span className="px-4 py-2 bg-[var(--border-color)] border border-[var(--border-color)] rounded-xl text-xs font-medium text-[var(--text-muted)]">Python</span>
+                    <span className="px-4 py-2 bg-[var(--border-color)] border border-[var(--border-color)] rounded-xl text-xs font-medium text-[var(--text-muted)]">Java</span>
+                    <span className="px-4 py-2 bg-[var(--border-color)] border border-[var(--border-color)] rounded-xl text-xs font-medium text-[var(--text-muted)]">SQL</span>
+                    <span className="px-4 py-2 bg-[var(--border-color)] border border-[var(--border-color)] rounded-xl text-xs font-medium text-[var(--text-muted)]">HTML/CSS</span>
+                  </div>
                 </div>
+
                 {/* Frameworks */}
-                <div className="p-10 border-r border-b border-white/10 hover:bg-accent-5 transition-colors group">
-                  <span className="material-symbols-outlined text-accent text-4xl mb-6 block">
-                    layers
-                  </span>
-                  <h3 className="text-sm font-bold text-white mb-4 tracking-[0.2em] uppercase">
+                <div className="p-8 bg-white/[0.02] border border-[var(--border-color)] rounded-[20px] transition-colors hover:border-[var(--border-color)]">
+                  <h3 className="text-[13px] font-bold text-accent tracking-[0.15em] mb-6 uppercase">
                     Frameworks
                   </h3>
-                  <ul className="space-y-2 text-xs text-neutral-400 font-medium">
-                    <li>Next.js / Node.js</li>
-                    <li>React</li>
-                    <li>Express.js</li>
-                    <li>NumPy / Pandas</li>
-                    <li>OpenCV</li>
-                  </ul>
+                  <div className="flex flex-wrap gap-2.5">
+                    <span className="px-4 py-2 bg-[var(--border-color)] border border-[var(--border-color)] rounded-xl text-xs font-medium text-[var(--text-muted)]">Next.js</span>
+                    <span className="px-4 py-2 bg-[var(--border-color)] border border-[var(--border-color)] rounded-xl text-xs font-medium text-[var(--text-muted)]">Node.js</span>
+                    <span className="px-4 py-2 bg-[var(--border-color)] border border-[var(--border-color)] rounded-xl text-xs font-medium text-[var(--text-muted)]">React</span>
+                    <span className="px-4 py-2 bg-[var(--border-color)] border border-[var(--border-color)] rounded-xl text-xs font-medium text-[var(--text-muted)]">Express.js</span>
+                    <span className="px-4 py-2 bg-[var(--border-color)] border border-[var(--border-color)] rounded-xl text-xs font-medium text-[var(--text-muted)]">NumPy</span>
+                    <span className="px-4 py-2 bg-[var(--border-color)] border border-[var(--border-color)] rounded-xl text-xs font-medium text-[var(--text-muted)]">Pandas</span>
+                    <span className="px-4 py-2 bg-[var(--border-color)] border border-[var(--border-color)] rounded-xl text-xs font-medium text-[var(--text-muted)]">OpenCV</span>
+                  </div>
                 </div>
+
                 {/* APIs & Services */}
-                <div className="p-10 border-r border-b border-white/10 hover:bg-accent-5 transition-colors group">
-                  <span className="material-symbols-outlined text-accent text-4xl mb-6 block">
-                    api
-                  </span>
-                  <h3 className="text-sm font-bold text-white mb-4 tracking-[0.2em] uppercase">
+                <div className="p-8 bg-white/[0.02] border border-[var(--border-color)] rounded-[20px] transition-colors hover:border-[var(--border-color)]">
+                  <h3 className="text-[13px] font-bold text-accent tracking-[0.15em] mb-6 uppercase">
                     APIs &amp; Services
                   </h3>
-                  <ul className="space-y-2 text-xs text-neutral-400 font-medium">
-                    <li>OpenAI / Anthropic</li>
-                    <li>ElevenLabs</li>
-                    <li>Spotify / WABA API</li>
-                    <li>OAuth 2.0 / REST</li>
-                  </ul>
+                  <div className="flex flex-wrap gap-2.5">
+                    <span className="px-4 py-2 bg-[var(--border-color)] border border-[var(--border-color)] rounded-xl text-xs font-medium text-[var(--text-muted)]">OpenAI</span>
+                    <span className="px-4 py-2 bg-[var(--border-color)] border border-[var(--border-color)] rounded-xl text-xs font-medium text-[var(--text-muted)]">Anthropic</span>
+                    <span className="px-4 py-2 bg-[var(--border-color)] border border-[var(--border-color)] rounded-xl text-xs font-medium text-[var(--text-muted)]">ElevenLabs</span>
+                    <span className="px-4 py-2 bg-[var(--border-color)] border border-[var(--border-color)] rounded-xl text-xs font-medium text-[var(--text-muted)]">Spotify API</span>
+                    <span className="px-4 py-2 bg-[var(--border-color)] border border-[var(--border-color)] rounded-xl text-xs font-medium text-[var(--text-muted)]">WABA API</span>
+                    <span className="px-4 py-2 bg-[var(--border-color)] border border-[var(--border-color)] rounded-xl text-xs font-medium text-[var(--text-muted)]">OAuth 2.0</span>
+                    <span className="px-4 py-2 bg-[var(--border-color)] border border-[var(--border-color)] rounded-xl text-xs font-medium text-[var(--text-muted)]">REST APIs</span>
+                  </div>
                 </div>
-                {/* Tools & Cloud — lg:col-span-2 */}
-                <div className="p-10 border-r border-b border-white/10 hover:bg-accent-5 transition-colors group lg:col-span-2">
-                  <span className="material-symbols-outlined text-accent text-4xl mb-6 block">
-                    cloud
-                  </span>
-                  <h3 className="text-sm font-bold text-white mb-4 tracking-[0.2em] uppercase">
+
+                {/* Tools & Cloud */}
+                <div className="p-8 bg-white/[0.02] border border-[var(--border-color)] rounded-[20px] transition-colors hover:border-[var(--border-color)] lg:col-span-2">
+                  <h3 className="text-[13px] font-bold text-accent tracking-[0.15em] mb-6 uppercase">
                     Tools &amp; Cloud
                   </h3>
-                  <div className="grid grid-cols-2 gap-4">
-                    <ul className="space-y-2 text-xs text-neutral-400 font-medium">
-                      <li>Git / GitHub</li>
-                      <li>Vercel / Render</li>
-                      <li>MySQL / Postman</li>
-                    </ul>
-                    <ul className="space-y-2 text-xs text-neutral-400 font-medium">
-                      <li>VS Code</li>
-                      <li>Azure AI</li>
-                      <li>AWS</li>
-                    </ul>
+                  <div className="flex flex-wrap gap-2.5">
+                    <span className="px-4 py-2 bg-[var(--border-color)] border border-[var(--border-color)] rounded-xl text-xs font-medium text-[var(--text-muted)]">Git/GitHub</span>
+                    <span className="px-4 py-2 bg-[var(--border-color)] border border-[var(--border-color)] rounded-xl text-xs font-medium text-[var(--text-muted)]">Vercel</span>
+                    <span className="px-4 py-2 bg-[var(--border-color)] border border-[var(--border-color)] rounded-xl text-xs font-medium text-[var(--text-muted)]">Render</span>
+                    <span className="px-4 py-2 bg-[var(--border-color)] border border-[var(--border-color)] rounded-xl text-xs font-medium text-[var(--text-muted)]">MySQL</span>
+                    <span className="px-4 py-2 bg-[var(--border-color)] border border-[var(--border-color)] rounded-xl text-xs font-medium text-[var(--text-muted)]">Postman</span>
+                    <span className="px-4 py-2 bg-[var(--border-color)] border border-[var(--border-color)] rounded-xl text-xs font-medium text-[var(--text-muted)]">VS Code</span>
+                    <span className="px-4 py-2 bg-[var(--border-color)] border border-[var(--border-color)] rounded-xl text-xs font-medium text-[var(--text-muted)]">Azure AI</span>
+                    <span className="px-4 py-2 bg-[var(--border-color)] border border-[var(--border-color)] rounded-xl text-xs font-medium text-[var(--text-muted)]">AWS</span>
                   </div>
                 </div>
               </div>
@@ -559,14 +634,14 @@ export default function Page() {
               <Reveal className="w-full text-center">
                 <h2 className="font-headline text-4xl md:text-6xl font-bold text-primary-neon uppercase">
                   <TypingText text="EXPERIENCE & EDUCATION" />
-                  <span className="typing-cursor">|</span>
+                  <span className="typing-cursor" />
                 </h2>
               </Reveal>
             </div>
 
             {/* Timeline container — min-h-[1200px] */}
             <div
-              className="relative min-h-[1200px]"
+              className="relative min-h-[1200px] w-full"
               id="timeline-container"
               ref={timelineContainerRef}
             >
@@ -575,69 +650,69 @@ export default function Page() {
               </div>
 
               {/* Item 1: Experience — gap-24=96px mb-48=192px pr-16=64px */}
-              <div className="relative grid md:grid-cols-2 gap-24 items-center mb-48 timeline-row group">
+              <div className="relative grid md:grid-cols-2 gap-24 items-center mb-48 timeline-row group w-full">
                 <Reveal className="md:text-right md:pr-16">
                   <div className="text-xs font-bold text-accent tracking-[0.3em] mb-4">
                     JAN 2026 - PRESENT
                   </div>
-                  <h4 className="text-2xl font-bold text-white mb-2 hover-green transition-colors">
+                  <h4 className="text-2xl font-bold text-[var(--text)] mb-2 hover-green transition-colors">
                     AI Developer Intern
                   </h4>
-                  <p className="text-neutral-400 font-medium mb-4">
+                  <p className="text-[var(--text-muted)] font-medium mb-4">
                     Appiness Interactive Private Limited
                   </p>
-                  <p className="text-sm text-neutral-500 leading-relaxed max-w-md md:ml-auto">
+                  <p className="text-sm text-[var(--text-muted)] leading-relaxed max-w-md md:ml-auto">
                     Developing enterprise-grade agentic workflows and LLM
                     orchestration layers. Focused on improving retrieval accuracy
                     and multi-step reasoning capabilities.
                   </p>
                 </Reveal>
                 {/* Node: w-4=16px h-4=16px border-2 */}
-                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-2 border-[var(--primary)] bg-[var(--surface)] milestone-node" />
+                <div className="milestone-node" />
                 <div className="hidden md:block" />
               </div>
 
               {/* Item 2: B.Tech — p-6=24px rounded-2xl=16px text-xl=20px */}
-              <div className="relative grid md:grid-cols-2 gap-24 items-center mb-48 timeline-row group">
+              <div className="relative grid md:grid-cols-2 gap-24 items-center mb-48 timeline-row group w-full">
                 <div className="hidden md:block" />
-                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-2 border-[var(--primary)] bg-[var(--surface)] milestone-node" />
+                <div className="milestone-node" />
                 <Reveal className="md:pl-16">
                   <div className="text-xs font-bold text-accent tracking-[0.3em] mb-4">
                     2022 - 2026
                   </div>
-                  <h4 className="text-2xl font-bold text-white mb-2 hover-green transition-colors">
+                  <h4 className="text-2xl font-bold text-[var(--text)] mb-2 hover-green transition-colors">
                     B.Tech CSE (Core)
                   </h4>
-                  <p className="text-neutral-400 font-medium mb-4">
+                  <p className="text-[var(--text-muted)] font-medium mb-4">
                     VIT-AP University
                   </p>
-                  <div className="p-6 bg-white/5 rounded-2xl border border-white/5 inline-block">
+                  <div className="p-6 bg-[var(--border-color)] rounded-2xl border border-[var(--border-color)] inline-block">
                     <span className="text-accent font-bold text-xl">
                       8.5 / 10.0
                     </span>{" "}
-                    <span className="text-neutral-500 ml-2">CGPA</span>
+                    <span className="text-[var(--text-muted)] ml-2">CGPA</span>
                   </div>
                 </Reveal>
               </div>
 
               {/* Item 3: Higher Secondary — p-4=16px rounded-xl=12px */}
-              <div className="relative grid md:grid-cols-2 gap-24 items-center mb-48 timeline-row group">
+              <div className="relative grid md:grid-cols-2 gap-24 items-center mb-48 timeline-row group w-full">
                 <div className="hidden md:block" />
-                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-2 border-[var(--primary)] bg-[var(--surface)] milestone-node" />
+                <div className="milestone-node" />
                 <Reveal className="md:pl-16">
                   <div className="text-xs font-bold text-accent tracking-[0.3em] mb-4">
                     2020 - 2022
                   </div>
-                  <h4 className="text-2xl font-bold text-white mb-2 hover-green transition-colors">
+                  <h4 className="text-2xl font-bold text-[var(--text)] mb-2 hover-green transition-colors">
                     Higher Secondary (CBSE)
                   </h4>
-                  <p className="text-neutral-400 font-medium mb-4">
+                  <p className="text-[var(--text-muted)] font-medium mb-4">
                     Deens Academy
                   </p>
-                  <div className="p-4 bg-white/5 rounded-xl border border-white/5 flex items-center gap-4">
+                  <div className="p-4 bg-[var(--border-color)] rounded-xl border border-[var(--border-color)] flex items-center gap-4">
                     <span className="text-accent font-bold">92.8%</span>
-                    <div className="h-4 w-px bg-white/10" />
-                    <span className="text-xs text-neutral-500 uppercase tracking-widest">
+                    <div className="h-4 w-px bg-[var(--border-color)]" />
+                    <span className="text-xs text-[var(--text-muted)] uppercase tracking-widest">
                       Graduated with Distinction
                     </span>
                   </div>
@@ -645,23 +720,23 @@ export default function Page() {
               </div>
 
               {/* Item 4: Secondary */}
-              <div className="relative grid md:grid-cols-2 gap-24 items-center timeline-row group">
+              <div className="relative grid md:grid-cols-2 gap-24 items-center timeline-row group w-full">
                 <div className="hidden md:block" />
-                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-2 border-[var(--primary)] bg-[var(--surface)] milestone-node" />
+                <div className="milestone-node" />
                 <Reveal className="md:pl-16">
                   <div className="text-xs font-bold text-accent tracking-[0.3em] mb-4">
                     2008 - 2020
                   </div>
-                  <h4 className="text-2xl font-bold text-white mb-2 hover-green transition-colors">
+                  <h4 className="text-2xl font-bold text-[var(--text)] mb-2 hover-green transition-colors">
                     Secondary (CBSE)
                   </h4>
-                  <p className="text-neutral-400 font-medium mb-4">
+                  <p className="text-[var(--text-muted)] font-medium mb-4">
                     Deens Academy
                   </p>
-                  <div className="p-4 bg-white/5 rounded-xl border border-white/5 flex items-center gap-4">
+                  <div className="p-4 bg-[var(--border-color)] rounded-xl border border-[var(--border-color)] flex items-center gap-4">
                     <span className="text-accent font-bold">94.4%</span>
-                    <div className="h-4 w-px bg-white/10" />
-                    <span className="text-xs text-neutral-500 uppercase tracking-widest">
+                    <div className="h-4 w-px bg-[var(--border-color)]" />
+                    <span className="text-xs text-[var(--text-muted)] uppercase tracking-widest">
                       Academic Excellence
                     </span>
                   </div>
@@ -682,18 +757,18 @@ export default function Page() {
             <div className="absolute top-0 md:top-20 left-0 w-full px-8 md:px-16 z-20">
               <h2 className="font-headline text-5xl md:text-7xl font-bold text-primary-neon uppercase hover-green transition-colors text-left pt-12 md:pt-0">
                 <TypingText text="PROJECTS" />
-                <span className="typing-cursor">|</span>
+                <span className="typing-cursor" />
               </h2>
             </div>
-            {/* Background watermark: text-[20vw] text-white/[0.02] */}
+            {/* Background watermark: text-[20vw] text-[var(--text)]/[0.02] */}
             <div className="absolute left-0 w-full flex justify-center pointer-events-none overflow-hidden">
-              <h3 className="font-headline text-[20vw] font-black text-white/[0.02] whitespace-nowrap leading-none select-none">
+              <h3 className="font-headline text-[20vw] font-black text-[var(--text)]/[0.02] whitespace-nowrap leading-none select-none">
                 FEATURED WORK
               </h3>
             </div>
             {/* Track: gap 3rem=48px, padding 0 10vw, mt-40=160px md:mt-20=80px */}
             <div
-              className="project-track mt-40 md:mt-20"
+              className="project-track mt-64 md:mt-64"
               ref={projectTrackRef}
             >
               {/* Card 1: Music Maestro — 450×600, rounded-2rem=32px, duration-700 */}
@@ -713,10 +788,10 @@ export default function Page() {
                   alt="Music Maestro"
                 />
                 <div className="project-overlay">
-                  <h4 className="text-4xl font-headline font-bold text-white mb-2 group-hover:text-accent transition-colors">
+                  <h4 className="text-4xl font-headline font-bold text-[var(--text)] mb-2 group-hover:text-accent transition-colors">
                     Music Maestro
                   </h4>
-                  <p className="text-neutral-300 mb-8 text-sm">
+                  <p className="text-[var(--text-muted)] mb-8 text-sm">
                     AI-curated adaptive music experience engine.
                   </p>
                   <div className="flex items-center gap-2 text-accent text-[10px] font-bold uppercase tracking-[0.3em]">
@@ -745,10 +820,10 @@ export default function Page() {
                   alt="Summarix"
                 />
                 <div className="project-overlay">
-                  <h4 className="text-4xl font-headline font-bold text-white mb-2 group-hover:text-accent transition-colors">
+                  <h4 className="text-4xl font-headline font-bold text-[var(--text)] mb-2 group-hover:text-accent transition-colors">
                     Summarix
                   </h4>
-                  <p className="text-neutral-300 mb-8 text-sm">
+                  <p className="text-[var(--text-muted)] mb-8 text-sm">
                     LLM-powered executive information distillation tool.
                   </p>
                   <div className="flex items-center gap-2 text-accent text-[10px] font-bold uppercase tracking-[0.3em]">
@@ -777,10 +852,10 @@ export default function Page() {
                   alt="Lane Detection"
                 />
                 <div className="project-overlay">
-                  <h4 className="text-4xl font-headline font-bold text-white mb-2 group-hover:text-accent transition-colors">
+                  <h4 className="text-4xl font-headline font-bold text-[var(--text)] mb-2 group-hover:text-accent transition-colors">
                     Lane Detection
                   </h4>
-                  <p className="text-neutral-300 mb-8 text-sm">
+                  <p className="text-[var(--text-muted)] mb-8 text-sm">
                     Computer vision pipeline for navigation.
                   </p>
                   <div className="flex items-center gap-2 text-accent text-[10px] font-bold uppercase tracking-[0.3em]">
@@ -796,12 +871,12 @@ export default function Page() {
         </section>
 
         {/* ── CERTIFICATIONS ── py-32=128px, w-80=320px, p-8=32px, rounded-2xl=16px */}
-        <section className="py-32 px-8 bg-surface border-t border-white/5">
+        <section className="py-32 px-8 bg-surface border-t border-[var(--border-color)]">
           <div className="max-w-7xl mx-auto">
             <Reveal>
               <h2 className="font-headline text-3xl md:text-5xl font-bold tracking-[0.2em] text-primary-neon uppercase mb-16 hover-green transition-colors inline-block">
                 <TypingText text="INDUSTRY CERTIFICATIONS" />
-                <span className="typing-cursor">|</span>
+                <span className="typing-cursor" />
               </h2>
             </Reveal>
             <Reveal>
@@ -810,58 +885,58 @@ export default function Page() {
                 id="cert-container"
               >
                 <a
-                  className="nav-link flex-shrink-0 w-80 p-8 bg-white/5 border border-white/5 rounded-2xl hover:border-accent-40 transition-all"
+                  className="nav-link flex-shrink-0 w-80 p-8 bg-[var(--border-color)] border border-[var(--border-color)] rounded-2xl hover:border-accent-40 transition-all"
                   href="#"
                 >
                   <div className="text-[10px] font-bold text-accent mb-4 tracking-[0.2em]">
                     MICROSOFT
                   </div>
-                  <h4 className="text-white font-bold mb-2">
+                  <h4 className="text-[var(--text)] font-bold mb-2">
                     Azure AI Fundamentals (AI-900)
                   </h4>
-                  <p className="text-xs text-neutral-500">
+                  <p className="text-xs text-[var(--text-muted)]">
                     Credential ID: AZ-AI900-SUY
                   </p>
                 </a>
                 <a
-                  className="nav-link flex-shrink-0 w-80 p-8 bg-white/5 border border-white/5 rounded-2xl hover:border-accent-40 transition-all"
+                  className="nav-link flex-shrink-0 w-80 p-8 bg-[var(--border-color)] border border-[var(--border-color)] rounded-2xl hover:border-accent-40 transition-all"
                   href="#"
                 >
                   <div className="text-[10px] font-bold text-accent mb-4 tracking-[0.2em]">
                     AWS
                   </div>
-                  <h4 className="text-white font-bold mb-2">
+                  <h4 className="text-[var(--text)] font-bold mb-2">
                     AWS Cloud Practitioner
                   </h4>
-                  <p className="text-xs text-neutral-500">
+                  <p className="text-xs text-[var(--text-muted)]">
                     Amazon Web Services Foundations
                   </p>
                 </a>
                 <a
-                  className="nav-link flex-shrink-0 w-80 p-8 bg-white/5 border border-white/5 rounded-2xl hover:border-accent-40 transition-all"
+                  className="nav-link flex-shrink-0 w-80 p-8 bg-[var(--border-color)] border border-[var(--border-color)] rounded-2xl hover:border-accent-40 transition-all"
                   href="#"
                 >
                   <div className="text-[10px] font-bold text-accent mb-4 tracking-[0.2em]">
                     GOOGLE
                   </div>
-                  <h4 className="text-white font-bold mb-2">
+                  <h4 className="text-[var(--text)] font-bold mb-2">
                     Project Management Foundations
                   </h4>
-                  <p className="text-xs text-neutral-500">
+                  <p className="text-xs text-[var(--text-muted)]">
                     Agile &amp; Waterfall Methodologies
                   </p>
                 </a>
                 <a
-                  className="nav-link flex-shrink-0 w-80 p-8 bg-white/5 border border-white/5 rounded-2xl hover:border-accent-40 transition-all"
+                  className="nav-link flex-shrink-0 w-80 p-8 bg-[var(--border-color)] border border-[var(--border-color)] rounded-2xl hover:border-accent-40 transition-all"
                   href="#"
                 >
                   <div className="text-[10px] font-bold text-accent mb-4 tracking-[0.2em]">
                     U. OF ILLINOIS
                   </div>
-                  <h4 className="text-white font-bold mb-2">
+                  <h4 className="text-[var(--text)] font-bold mb-2">
                     Digital Media &amp; Marketing
                   </h4>
-                  <p className="text-xs text-neutral-500">
+                  <p className="text-xs text-[var(--text-muted)]">
                     Analytics and Consumer Behavior
                   </p>
                 </a>
@@ -872,10 +947,10 @@ export default function Page() {
       </main>
 
       {/* ════════════════════════════════════
-          FOOTER — bg-[#050505], py-40=160px
+          FOOTER — bg-[var(--surface-dark)], py-40=160px
           ════════════════════════════════════ */}
       <footer
-        className="bg-surface-darker py-40 px-8 border-t border-white/5"
+        className="bg-surface-darker py-40 px-8 border-t border-[var(--border-color)]"
         id="contact"
       >
         <div className="max-w-7xl mx-auto">
@@ -883,14 +958,14 @@ export default function Page() {
           <Reveal className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-24 gap-12">
             <div>
               <h3 className="text-accent font-bold tracking-[0.4em] uppercase mb-4">
-                Ready for impact
+                Ready for impact?
               </h3>
-              <p className="text-neutral-400 font-medium mb-8 max-w-md">
+              <p className="text-[var(--text-muted)] font-medium mb-8 max-w-md">
                 I&apos;m currently open to full-time roles, contracts, and
                 collaborations.
               </p>
               {/* text-7xl=72px md:text-9xl=128px leading-[0.9] */}
-              <h2 className="font-headline text-7xl md:text-9xl font-black text-white leading-[0.9] hover-green transition-colors">
+              <h2 className="font-headline text-7xl md:text-9xl font-black text-[var(--text)] leading-[0.9] hover-green transition-colors">
                 LET&apos;S
                 <br />
                 CONNECT.
@@ -900,60 +975,75 @@ export default function Page() {
             {/* Contact grid: p-6=24px rounded-xl=12px gap-4=16px lg:max-w-xl=576px */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full lg:max-w-xl">
               <a
-                className="nav-link p-6 bg-white/5 border border-white/10 rounded-xl hover:border-[var(--primary)] transition-all flex flex-col gap-4 group"
-                href="https://linkedin.com/in/suyash-agrawal-mntta"
+                className="nav-link p-6 bg-[var(--border-color)] border border-[var(--border-color)] rounded-xl hover:border-[var(--primary)] transition-all flex flex-col gap-4 group"
+                href="https://www.linkedin.com/in/suyash-agrawal-mntta/"
                 target="_blank"
+                rel="noreferrer"
               >
                 <svg
                   className="w-6 h-6 fill-accent"
                   viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
                 >
                   <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
                 </svg>
-                <span className="text-sm font-bold text-white uppercase tracking-widest group-hover:text-accent transition-colors">
-                  LinkedIn
-                </span>
+                <div className="flex flex-col">
+                  <span className="text-sm font-bold text-[var(--text)] uppercase tracking-widest group-hover:text-accent transition-colors">
+                    LinkedIn
+                  </span>
+                  <span className="text-[10px] text-[var(--text-muted)] font-mono mt-1 group-hover:text-[var(--text-muted)] transition-colors tracking-normal">
+                    suyash-agrawal-mntta
+                  </span>
+                </div>
               </a>
               <a
-                className="nav-link p-6 bg-white/5 border border-white/10 rounded-xl hover:border-[var(--primary)] transition-all flex flex-col gap-4 group"
+                className="nav-link p-6 bg-[var(--border-color)] border border-[var(--border-color)] rounded-xl hover:border-[var(--primary)] transition-all flex flex-col gap-4 group"
                 href="https://github.com/suyash-agrawal-mntta"
                 target="_blank"
+                rel="noreferrer"
               >
                 <svg
                   className="w-6 h-6 fill-accent"
                   viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
                 >
                   <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
                 </svg>
-                <span className="text-sm font-bold text-white uppercase tracking-widest group-hover:text-accent transition-colors">
-                  GitHub
-                </span>
+                <div className="flex flex-col">
+                  <span className="text-sm font-bold text-[var(--text)] uppercase tracking-widest group-hover:text-accent transition-colors">
+                    GitHub
+                  </span>
+                  <span className="text-[10px] text-[var(--text-muted)] font-mono mt-1 group-hover:text-[var(--text-muted)] transition-colors tracking-normal">
+                    suyash-agrawal-mntta
+                  </span>
+                </div>
               </a>
               <a
-                className="nav-link p-6 bg-white/5 border border-white/10 rounded-xl hover:border-[var(--primary)] transition-all flex flex-col gap-4 group"
+                className="nav-link p-6 bg-[var(--border-color)] border border-[var(--border-color)] rounded-xl hover:border-[var(--primary)] transition-all flex flex-col gap-4 group"
                 href="mailto:suyash.mntta@gmail.com"
               >
                 <span className="material-symbols-outlined text-accent text-3xl">
                   mail
                 </span>
-                <span className="text-sm font-bold text-white uppercase tracking-widest group-hover:text-accent transition-colors">
-                  Email
-                </span>
+                <div className="flex flex-col">
+                  <span className="text-sm font-bold text-[var(--text)] uppercase tracking-widest group-hover:text-accent transition-colors">
+                    Email
+                  </span>
+                  <span className="text-[10px] text-[var(--text-muted)] font-mono mt-1 group-hover:text-[var(--text-muted)] transition-colors tracking-normal">
+                    suyash.mntta@gmail.com
+                  </span>
+                </div>
               </a>
               <a
-                className="nav-link p-6 bg-white/5 border border-white/10 rounded-xl hover:border-[var(--primary)] transition-all flex flex-col gap-4 group"
+                className="nav-link p-6 bg-[var(--border-color)] border border-[var(--border-color)] rounded-xl hover:border-[var(--primary)] transition-all flex flex-col gap-4 group"
                 href="tel:+919981046888"
               >
                 <span className="material-symbols-outlined text-accent text-3xl">
                   call
                 </span>
                 <div className="flex flex-col">
-                  <span className="text-sm font-bold text-white uppercase tracking-widest group-hover:text-accent transition-colors">
+                  <span className="text-sm font-bold text-[var(--text)] uppercase tracking-widest group-hover:text-accent transition-colors">
                     Phone
                   </span>
-                  <span className="text-[10px] text-neutral-500 mt-1">
+                  <span className="text-[10px] text-[var(--text-muted)] font-mono mt-1 group-hover:text-[var(--text-muted)] transition-colors tracking-normal">
                     (+91) 99810 46888
                   </span>
                 </div>
@@ -962,9 +1052,9 @@ export default function Page() {
           </Reveal>
 
           {/* Bottom bar: mt-32=128px pt-12=48px text-[10px] tracking-[0.4em] */}
-          <div className="mt-32 pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center text-[10px] tracking-[0.4em] text-neutral-600 uppercase">
+          <div className="mt-32 pt-12 border-t border-[var(--border-color)] flex flex-col md:flex-row justify-between items-center text-[10px] tracking-[0.4em] text-[var(--text-muted)] uppercase">
             <div>© 2026 SUYASH AGRAWAL. ALL RIGHTS RESERVED.</div>
-            <div className="mt-4 md:mt-0 hover-green transition-colors">
+            <div className="mt-4 md:mt-0 text-[var(--text-muted)]">
               DESIGNED FOR INNOVATION &amp; SCALE.
             </div>
           </div>
@@ -981,6 +1071,36 @@ export default function Page() {
           />
         )}
       </AnimatePresence>
+
+      <motion.div
+        drag="y"
+        dragConstraints={{ top: -300, bottom: 300 }}
+        dragElastic={0.1}
+        onDragStart={() => document.getElementById("custom-cursor")?.classList.add("is-grabbing")}
+        onDragEnd={() => document.getElementById("custom-cursor")?.classList.remove("is-grabbing")}
+        id="floating-action-bar"
+        className="fixed right-6 lg:right-10 top-1/2 -translate-y-1/2 z-[100] hidden md:flex flex-col items-center gap-5 p-3 pb-6 rounded-full bg-[var(--surface-darker)] border border-[var(--border-color)] shadow-2xl cursor-grab active:cursor-grabbing backdrop-blur-md"
+      >
+        <div className="text-[var(--text-muted)] mb-1">
+          <span className="material-symbols-outlined text-[10px] select-none">drag_handle</span>
+        </div>
+        <a href="tel:+919981046888" className="nav-link text-[var(--text-muted)] hover:text-accent transition-colors" title="(+91) 99810 46888">
+          <span className="material-symbols-outlined text-lg">call</span>
+        </a>
+        <a href="mailto:suyash.mntta@gmail.com" className="nav-link text-[var(--text-muted)] hover:text-accent transition-colors" title="suyash.mntta@gmail.com">
+          <span className="material-symbols-outlined text-lg">mail</span>
+        </a>
+        <a href="https://github.com/suyash-agrawal-mntta" className="nav-link text-[var(--text-muted)] hover:text-accent transition-colors" title="suyash-agrawal-mntta" target="_blank" rel="noreferrer">
+          <svg className="w-[22px] h-[22px] fill-current" viewBox="0 0 24 24">
+            <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.03-2.682-.103-.253-.447-1.27.098-2.646 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.376.202 2.394.1 2.646.64.699 1.028 1.591 1.028 2.682 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.161 22 16.418 22 12c0-5.523-4.477-10-10-10z" />
+          </svg>
+        </a>
+        <a href="https://www.linkedin.com/in/suyash-agrawal-mntta/" className="nav-link text-[var(--text-muted)] hover:text-accent transition-colors mt-2" title="suyash-agrawal-mntta" target="_blank" rel="noreferrer">
+          <svg className="w-[17px] h-[17px] fill-current" viewBox="0 0 24 24">
+            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+          </svg>
+        </a>
+      </motion.div>
     </>
   );
 }
