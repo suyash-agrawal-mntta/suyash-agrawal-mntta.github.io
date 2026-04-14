@@ -28,8 +28,8 @@ const CURSOR_IMG = "/assets/cursor.png";
 const HERO_IMG = "/assets/suyash_photo.jpg";
 const PROJECT_IMGS = [
   "/assets/project-music-maestro.png",
-  "/assets/project-summarix.jpg",
-  "/assets/project-lane-detection.jpg",
+  "/assets/coming_soon.png",
+  "/assets/coming_soon.png",
 ];
 
 /* ═══════════════════════════════════════════════════
@@ -389,7 +389,7 @@ export default function Page() {
     const hover = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       const t = target.closest(
-        ".nav-link, a, button, .hover-green, .project-card, .theme-pill"
+        ".nav-link, a, button, .project-card, .theme-pill"
       );
       if (t) cursor.classList.add("hovering");
       else cursor.classList.remove("hovering");
@@ -899,7 +899,7 @@ export default function Page() {
               <div className="project-card focus-opacity opacity-70 cursor-default group">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  className="w-full h-full object-cover grayscale transition-all duration-700"
+                  className="w-full h-full object-cover transition-all duration-700"
                   src={PROJECT_IMGS[1]}
                   alt="Coming Soon"
                 />
@@ -917,7 +917,7 @@ export default function Page() {
               <div className="project-card focus-opacity opacity-70 cursor-default group">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  className="w-full h-full object-cover grayscale transition-all duration-700"
+                  className="w-full h-full object-cover transition-all duration-700"
                   src={PROJECT_IMGS[2]}
                   alt="Coming Soon"
                 />
@@ -962,59 +962,121 @@ export default function Page() {
                   id="cert-container"
                 >
                 <a
-                  className="nav-link flex-shrink-0 w-80 p-8 bg-[var(--border-color)] border border-[var(--border-color)] rounded-2xl hover:border-accent-40 transition-all"
-                  href="#"
+                  className="nav-link flex-shrink-0 w-80 p-8 bg-[var(--border-color)] border border-[var(--border-color)] rounded-2xl hover:border-accent-40 transition-all group"
+                  href="/assets/Microsoft_Azure_AI_Fundamentals.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   <div className="text-[10px] font-bold text-accent mb-4 tracking-[0.2em]">
                     MICROSOFT
                   </div>
-                  <h4 className="text-[var(--text)] font-bold mb-2">
+                  <h4 className="text-[var(--text)] font-bold mb-2 group-hover:text-accent transition-colors">
                     Azure AI Fundamentals (AI-900)
                   </h4>
                   <p className="text-xs text-[var(--text-muted)]">
-                    Credential ID: AZ-AI900-SUY
+                    Credential ID: d9xp-DwW2
                   </p>
                 </a>
+                
                 <a
-                  className="nav-link flex-shrink-0 w-80 p-8 bg-[var(--border-color)] border border-[var(--border-color)] rounded-2xl hover:border-accent-40 transition-all"
-                  href="#"
+                  className="nav-link flex-shrink-0 w-80 p-8 bg-[var(--border-color)] border border-[var(--border-color)] rounded-2xl hover:border-accent-40 transition-all group"
+                  href="/assets/AWS_Academy_Cloud_Architecture.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   <div className="text-[10px] font-bold text-accent mb-4 tracking-[0.2em]">
                     AWS
                   </div>
-                  <h4 className="text-[var(--text)] font-bold mb-2">
-                    AWS Cloud Practitioner
+                  <h4 className="text-[var(--text)] font-bold mb-2 group-hover:text-accent transition-colors">
+                    AWS Academy Cloud Architecting
                   </h4>
                   <p className="text-xs text-[var(--text-muted)]">
                     Amazon Web Services Foundations
                   </p>
                 </a>
+                
                 <a
-                  className="nav-link flex-shrink-0 w-80 p-8 bg-[var(--border-color)] border border-[var(--border-color)] rounded-2xl hover:border-accent-40 transition-all"
-                  href="#"
+                  className="nav-link flex-shrink-0 w-80 p-8 bg-[var(--border-color)] border border-[var(--border-color)] rounded-2xl hover:border-accent-40 transition-all group"
+                  href="/assets/Coursera_Project_Management.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   <div className="text-[10px] font-bold text-accent mb-4 tracking-[0.2em]">
                     GOOGLE
                   </div>
-                  <h4 className="text-[var(--text)] font-bold mb-2">
+                  <h4 className="text-[var(--text)] font-bold mb-2 group-hover:text-accent transition-colors">
                     Project Management Foundations
                   </h4>
                   <p className="text-xs text-[var(--text-muted)]">
                     Agile &amp; Waterfall Methodologies
                   </p>
                 </a>
+                
                 <a
-                  className="nav-link flex-shrink-0 w-80 p-8 bg-[var(--border-color)] border border-[var(--border-color)] rounded-2xl hover:border-accent-40 transition-all"
-                  href="#"
+                  className="nav-link flex-shrink-0 w-80 p-8 bg-[var(--border-color)] border border-[var(--border-color)] rounded-2xl hover:border-accent-40 transition-all group"
+                  href="/assets/Coursera_Digital_Media_and_Marketing_Stategies.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   <div className="text-[10px] font-bold text-accent mb-4 tracking-[0.2em]">
-                    U. OF ILLINOIS
+                    UNIVERSITY OF ILLINOIS
                   </div>
-                  <h4 className="text-[var(--text)] font-bold mb-2">
-                    Digital Media &amp; Marketing
+                  <h4 className="text-[var(--text)] font-bold mb-2 group-hover:text-accent transition-colors">
+                    Digital Media &amp; Marketing Strategies
                   </h4>
                   <p className="text-xs text-[var(--text-muted)]">
                     Analytics and Consumer Behavior
+                  </p>
+                </a>
+
+                <a
+                  className="nav-link flex-shrink-0 w-80 p-8 bg-[var(--border-color)] border border-[var(--border-color)] rounded-2xl hover:border-accent-40 transition-all group"
+                  href="/assets/Coursera_OOP.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <div className="text-[10px] font-bold text-accent mb-4 tracking-[0.2em]">
+                    LEARNQUEST
+                  </div>
+                  <h4 className="text-[var(--text)] font-bold mb-2 group-hover:text-accent transition-colors">
+                    Object-Oriented Programming with Java
+                  </h4>
+                  <p className="text-xs text-[var(--text-muted)]">
+                    Software Engineering and Design
+                  </p>
+                </a>
+
+                <a
+                  className="nav-link flex-shrink-0 w-80 p-8 bg-[var(--border-color)] border border-[var(--border-color)] rounded-2xl hover:border-accent-40 transition-all group"
+                  href="/assets/Coursera_Python.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <div className="text-[10px] font-bold text-accent mb-4 tracking-[0.2em]">
+                    UNIVERSITY OF MICHIGAN
+                  </div>
+                  <h4 className="text-[var(--text)] font-bold mb-2 group-hover:text-accent transition-colors">
+                    Python Programming
+                  </h4>
+                  <p className="text-xs text-[var(--text-muted)]">
+                    Data Structures &amp; Algorithms
+                  </p>
+                </a>
+
+                <a
+                  className="nav-link flex-shrink-0 w-80 p-8 bg-[var(--border-color)] border border-[var(--border-color)] rounded-2xl hover:border-accent-40 transition-all group"
+                  href="/assets/Suyash_Agrawal_Wadhwani_Certificate.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <div className="text-[10px] font-bold text-accent mb-4 tracking-[0.2em]">
+                    WADHWANI FOUNDATION
+                  </div>
+                  <h4 className="text-[var(--text)] font-bold mb-2 group-hover:text-accent transition-colors">
+                    Wadhwani Employability Skills
+                  </h4>
+                  <p className="text-xs text-[var(--text-muted)]">
+                    Core Business &amp; Soft Skills
                   </p>
                 </a>
               </div>
