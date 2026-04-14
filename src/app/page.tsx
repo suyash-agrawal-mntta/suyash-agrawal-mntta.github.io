@@ -27,7 +27,7 @@ const GEAR_IMG = "/assets/gear.png";
 const CURSOR_IMG = "/assets/cursor.png";
 const HERO_IMG = "/assets/suyash_photo.jpg";
 const PROJECT_IMGS = [
-  "/assets/project-music-maestro.jpg",
+  "/assets/project-music-maestro.png",
   "/assets/project-summarix.jpg",
   "/assets/project-lane-detection.jpg",
 ];
@@ -66,6 +66,47 @@ function TypingText({
   return (
     <span ref={ref} className={className}>
       {display}
+    </span>
+  );
+}
+
+function MultiTypingText({
+  texts,
+  className,
+  speed = 80,
+  delay = 2000,
+}: {
+  texts: readonly string[];
+  className?: string;
+  speed?: number;
+  delay?: number;
+}) {
+  const [index, setIndex] = useState(0);
+  const [subIndex, setSubIndex] = useState(0);
+  const [reverse, setReverse] = useState(false);
+
+  useEffect(() => {
+    if (subIndex === texts[index].length + 1 && !reverse) {
+      const timeout = setTimeout(() => setReverse(true), delay);
+      return () => clearTimeout(timeout);
+    }
+
+    if (subIndex === 0 && reverse) {
+      setReverse(false);
+      setIndex((prev) => (prev + 1) % texts.length);
+      return;
+    }
+
+    const timeout = setTimeout(() => {
+      setSubIndex((prev) => prev + (reverse ? -1 : 1));
+    }, reverse ? speed / 2 : speed);
+
+    return () => clearTimeout(timeout);
+  }, [subIndex, index, reverse, texts, speed, delay]);
+
+  return (
+    <span className={className}>
+      {texts[index].substring(0, subIndex)}
     </span>
   );
 }
@@ -127,10 +168,12 @@ function SceneContent({ accentColor }: { accentColor: string }) {
 function ProjectModal({
   title,
   desc,
+  url,
   onClose,
 }: {
   title: string;
   desc: string;
+  url?: string;
   onClose: () => void;
 }) {
   return (
@@ -141,37 +184,58 @@ function ProjectModal({
       exit={{ opacity: 0 }}
     >
       <div className="absolute inset-0 modal-backdrop" onClick={onClose} />
-      <div className="relative w-full h-full flex items-center justify-center p-8">
-        <div className="bg-[var(--surface-variant)] border border-[var(--border-color)] w-full max-w-6xl h-[85vh] rounded-3xl overflow-hidden flex flex-col shadow-2xl">
-          <div className="flex justify-between items-center p-8 border-b border-[var(--border-color)]">
-            <h3 className="text-3xl font-headline font-bold text-themed">
-              {title}
-            </h3>
-            <div className="flex gap-4">
-              <button className="nav-link px-6 py-2 bg-[var(--border-color)] text-[var(--text)] text-xs font-bold uppercase rounded-lg hover:bg-white/20 transition-all flex items-center gap-2">
-                Open In New Tab{" "}
-                <span className="material-symbols-outlined text-sm">
-                  open_in_new
-                </span>
-              </button>
-              <button
-                className="nav-link w-10 h-10 flex items-center justify-center bg-red-500/20 text-red-500 rounded-lg hover:bg-red-500/30 transition-all"
-                onClick={onClose}
-              >
-                <span className="material-symbols-outlined">close</span>
-              </button>
+      <div className="relative w-full h-full flex items-center justify-center p-4 md:p-8">
+        <div className="bg-[var(--surface-variant)] border border-[var(--border-color)] w-full max-w-6xl h-[90vh] rounded-3xl overflow-hidden flex flex-col shadow-2xl">
+          <div className="p-6 md:p-8 border-b border-[var(--border-color)]">
+            <div className="flex justify-between items-center mb-2">
+              <h3 className="text-2xl md:text-3xl font-headline font-bold text-themed">
+                {title}
+              </h3>
+              <div className="flex gap-4">
+                {url && (
+                  <a 
+                    href={url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="nav-link px-4 md:px-6 py-2 bg-[var(--border-color)] text-[var(--text)] text-[10px] md:text-xs font-bold uppercase rounded-lg hover:bg-white/20 transition-all flex items-center gap-2"
+                  >
+                    Open In New Tab{" "}
+                    <span className="material-symbols-outlined text-sm">
+                      open_in_new
+                    </span>
+                  </a>
+                )}
+                <button
+                  className="nav-link w-10 h-10 flex items-center justify-center bg-red-500/20 text-red-500 rounded-lg hover:bg-red-500/30 transition-all"
+                  onClick={onClose}
+                >
+                  <span className="material-symbols-outlined">close</span>
+                </button>
+              </div>
             </div>
-          </div>
-          <div className="flex-1 p-12 overflow-y-auto">
-            <p className="text-xl text-[var(--text-muted)] mb-12 max-w-3xl leading-relaxed">
+            <p className="text-sm md:text-base text-[var(--text-muted)] max-w-3xl leading-relaxed">
               {desc}
             </p>
-            <div className="aspect-video bg-black/40 rounded-2xl border border-[var(--border-color)] flex items-center justify-center text-[var(--text-muted)] italic">
-              <div className="text-center">
-                <span className="material-symbols-outlined text-6xl mb-4 block">
-                  terminal
-                </span>
-                <p>Interactive Emulator Placeholder</p>
+          </div>
+          <div className="flex-1 overflow-hidden flex flex-col">
+            <div className="flex-1 p-4 md:p-6">
+              <div className="w-full h-full bg-black/40 rounded-2xl border border-[var(--border-color)] overflow-hidden shadow-inner">
+                {url ? (
+                  <iframe 
+                    src={url}
+                    className="w-[133.33%] h-[133.33%] border-0 origin-top-left scale-[0.75]"
+                    title={title}
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-[var(--text-muted)] italic">
+                    <div className="text-center">
+                      <span className="material-symbols-outlined text-6xl mb-4 block">
+                        terminal
+                      </span>
+                      <p>Interactive Emulator Placeholder</p>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -234,6 +298,7 @@ export default function Page() {
   const [modal, setModal] = useState<{
     title: string;
     desc: string;
+    url?: string;
   } | null>(null);
 
   /* ── Refs for imperative scroll logic (exact Stitch JS) ── */
@@ -340,49 +405,37 @@ export default function Page() {
     };
   }, []);
 
-  /* ── Drag to scroll for cert container ── */
+  /* ── Netflix-style Scroll for Cert Container ── */
+  const [certScroll, setCertScroll] = useState({ left: false, right: true });
+
   useEffect(() => {
-    const slider = document.getElementById("cert-container");
-    if (!slider) return;
+    const container = document.getElementById("cert-container");
+    if (!container) return;
 
-    let isDown = false;
-    let startX: number;
-    let scrollLeft: number;
-
-    const onMouseDown = (e: MouseEvent) => {
-      isDown = true;
-      startX = e.pageX - slider.offsetLeft;
-      scrollLeft = slider.scrollLeft;
-      const cursor = document.getElementById("custom-cursor");
-      if (cursor) cursor.classList.add("is-grabbing");
+    const checkScroll = () => {
+      const { scrollLeft, scrollWidth, clientWidth } = container;
+      setCertScroll({
+        left: scrollLeft > 10,
+        right: scrollLeft < scrollWidth - clientWidth - 10
+      });
     };
 
-    const endDrag = () => {
-      isDown = false;
-      const cursor = document.getElementById("custom-cursor");
-      if (cursor) cursor.classList.remove("is-grabbing");
-    };
+    container.addEventListener("scroll", checkScroll);
+    checkScroll(); // Initial check
 
-    const onMouseMove = (e: MouseEvent) => {
-      if (!isDown) return;
-      e.preventDefault();
-      const x = e.pageX - slider.offsetLeft;
-      // Scroll speed multiplier
-      const walk = (x - startX) * 2; 
-      slider.scrollLeft = scrollLeft - walk;
-    };
+    return () => container.removeEventListener("scroll", checkScroll);
+  }, []);
 
-    slider.addEventListener("mousedown", onMouseDown);
-    slider.addEventListener("mouseleave", endDrag);
-    slider.addEventListener("mouseup", endDrag);
-    slider.addEventListener("mousemove", onMouseMove);
-
-    return () => {
-      slider.removeEventListener("mousedown", onMouseDown);
-      slider.removeEventListener("mouseleave", endDrag);
-      slider.removeEventListener("mouseup", endDrag);
-      slider.removeEventListener("mousemove", onMouseMove);
-    };
+  const scrollCerts = useCallback((direction: "left" | "right") => {
+    const container = document.getElementById("cert-container");
+    if (!container) return;
+    const cardWidth = 320; // w-80 is 20rem = 320px
+    const gap = 32; // gap-8 is 2rem = 32px
+    const scrollAmount = cardWidth + gap;
+    container.scrollBy({
+      left: direction === "left" ? -scrollAmount : scrollAmount,
+      behavior: "smooth"
+    });
   }, []);
 
   /* ═══════════════ JSX ═══════════════ */
@@ -419,19 +472,31 @@ export default function Page() {
         </div>
         <nav className="hidden md:flex gap-10 text-[11px] font-bold uppercase tracking-[0.2em] items-center">
           <a
-            className={`nav-link hover:text-accent transition-colors ${activeSection === "skills" ? "text-accent" : "text-[var(--text-muted)]"}`}
+            className={`nav-link hover:text-[var(--primary)] transition-all duration-300 ${
+              activeSection === "skills" 
+                ? "text-[var(--primary)] font-extrabold scale-110" 
+                : "text-[var(--text-muted)] opacity-50 font-medium"
+            }`}
             href="#skills"
           >
             Skills
           </a>
           <a
-            className={`nav-link hover:text-accent transition-colors ${activeSection === "experience" ? "text-accent" : "text-[var(--text-muted)]"}`}
+            className={`nav-link hover:text-[var(--primary)] transition-all duration-300 ${
+              activeSection === "experience" 
+                ? "text-[var(--primary)] font-extrabold scale-110" 
+                : "text-[var(--text-muted)] opacity-50 font-medium"
+            }`}
             href="#experience"
           >
             Experience
           </a>
           <a
-            className={`nav-link hover:text-accent transition-colors ${activeSection === "projects" ? "text-accent" : "text-[var(--text-muted)]"}`}
+            className={`nav-link hover:text-[var(--primary)] transition-all duration-300 ${
+              activeSection === "projects" 
+                ? "text-[var(--primary)] font-extrabold scale-110" 
+                : "text-[var(--text-muted)] opacity-50 font-medium"
+            }`}
             href="#projects"
           >
             Projects
@@ -479,9 +544,10 @@ export default function Page() {
                 <span className="typing-cursor" />
               </h1>
               
-              <Reveal className="mb-8">
-                <span className="text-sm md:text-base font-bold tracking-[0.5em] text-[var(--text-muted)] uppercase">
-                  AI ENGINEER
+              <Reveal className="mb-8 h-[24px]">
+                <span className="text-sm md:text-base font-bold tracking-[0.5em] text-[var(--text-muted)] uppercase flex items-center">
+                  <MultiTypingText texts={["AI Engineer", "Generative AI Specialist", "Workflow Automation"] as const} />
+                  <span className="typing-cursor h-4 ml-1" />
                 </span>
               </Reveal>
 
@@ -604,7 +670,7 @@ export default function Page() {
                 </div>
 
                 {/* Tools & Cloud */}
-                <div className="p-8 bg-white/[0.02] border border-[var(--border-color)] rounded-[20px] transition-colors hover:border-[var(--border-color)] lg:col-span-2">
+                <div className="p-8 bg-white/[0.02] border border-[var(--border-color)] rounded-[20px] transition-colors hover:border-[var(--border-color)]">
                   <h3 className="text-[13px] font-bold text-accent tracking-[0.15em] mb-6 uppercase">
                     Tools &amp; Cloud
                   </h3>
@@ -658,9 +724,14 @@ export default function Page() {
                   <h4 className="text-2xl font-bold text-[var(--text)] mb-2 hover-green transition-colors">
                     AI Developer Intern
                   </h4>
-                  <p className="text-[var(--text-muted)] font-medium mb-4">
-                    Appiness Interactive Private Limited
-                  </p>
+                  <div className="mb-4">
+                    <p className="text-[var(--text-muted)] font-medium">
+                      Appiness Interactive Private Limited
+                    </p>
+                    <p className="text-[11px] font-bold text-accent tracking-[0.2em] uppercase mt-1">
+                      Bengaluru, KA, India
+                    </p>
+                  </div>
                   <p className="text-sm text-[var(--text-muted)] leading-relaxed max-w-md md:ml-auto">
                     Developing enterprise-grade agentic workflows and LLM
                     orchestration layers. Focused on improving retrieval accuracy
@@ -681,13 +752,18 @@ export default function Page() {
                     2022 - 2026
                   </div>
                   <h4 className="text-2xl font-bold text-[var(--text)] mb-2 hover-green transition-colors">
-                    B.Tech CSE (Core)
+                    B.Tech in Computer Science Engineering (Core)
                   </h4>
-                  <p className="text-[var(--text-muted)] font-medium mb-4">
-                    VIT-AP University
-                  </p>
-                  <div className="p-6 bg-[var(--border-color)] rounded-2xl border border-[var(--border-color)] inline-block">
-                    <span className="text-accent font-bold text-xl">
+                  <div className="mb-6">
+                    <p className="text-[var(--text-muted)] font-medium">
+                      VIT-AP University
+                    </p>
+                    <p className="text-[11px] font-bold text-accent tracking-[0.2em] uppercase mt-1">
+                      Amaravati, AP, India
+                    </p>
+                  </div>
+                  <div className="p-4 bg-[var(--border-color)] rounded-2xl border border-[var(--border-color)] inline-block">
+                    <span className="text-accent font-bold">
                       8.5 / 10.0
                     </span>{" "}
                     <span className="text-[var(--text-muted)] ml-2">CGPA</span>
@@ -704,12 +780,20 @@ export default function Page() {
                     2020 - 2022
                   </div>
                   <h4 className="text-2xl font-bold text-[var(--text)] mb-2 hover-green transition-colors">
-                    Higher Secondary (CBSE)
+                    Higher Secondary - 12th (CBSE)
                   </h4>
-                  <p className="text-[var(--text-muted)] font-medium mb-4">
-                    Deens Academy
+                  <div className="mb-4">
+                    <p className="text-[var(--text-muted)] font-medium">
+                      Deens Academy
+                    </p>
+                    <p className="text-[11px] font-bold text-accent tracking-[0.2em] uppercase mt-1">
+                      Bengaluru, KA, India
+                    </p>
+                  </div>
+                  <p className="text-sm text-[var(--text-muted)] leading-relaxed max-w-sm mb-6">
+                    <strong className="text-[var(--text)] font-semibold">Science Stream (PCMC):</strong> Physics, Chemistry, Mathematics, with Computer Science.
                   </p>
-                  <div className="p-4 bg-[var(--border-color)] rounded-xl border border-[var(--border-color)] flex items-center gap-4">
+                  <div className="p-4 bg-[var(--border-color)] rounded-xl border border-[var(--border-color)] inline-flex items-center gap-4">
                     <span className="text-accent font-bold">92.8%</span>
                     <div className="h-4 w-px bg-[var(--border-color)]" />
                     <span className="text-xs text-[var(--text-muted)] uppercase tracking-widest">
@@ -728,12 +812,20 @@ export default function Page() {
                     2008 - 2020
                   </div>
                   <h4 className="text-2xl font-bold text-[var(--text)] mb-2 hover-green transition-colors">
-                    Secondary (CBSE)
+                    Secondary - 10th (CBSE)
                   </h4>
-                  <p className="text-[var(--text-muted)] font-medium mb-4">
-                    Deens Academy
+                  <div className="mb-4">
+                    <p className="text-[var(--text-muted)] font-medium">
+                      Deens Academy
+                    </p>
+                    <p className="text-[11px] font-bold text-accent tracking-[0.2em] uppercase mt-1">
+                      Bengaluru, KA, India
+                    </p>
+                  </div>
+                  <p className="text-sm text-[var(--text-muted)] leading-relaxed max-w-sm mb-6">
+                    <strong className="text-[var(--text)] font-semibold">General Subjects:</strong> Mathematics, Science, Social Science, Hindi, and English.
                   </p>
-                  <div className="p-4 bg-[var(--border-color)] rounded-xl border border-[var(--border-color)] flex items-center gap-4">
+                  <div className="p-4 bg-[var(--border-color)] rounded-xl border border-[var(--border-color)] inline-flex items-center gap-4">
                     <span className="text-accent font-bold">94.4%</span>
                     <div className="h-4 w-px bg-[var(--border-color)]" />
                     <span className="text-xs text-[var(--text-muted)] uppercase tracking-widest">
@@ -760,12 +852,6 @@ export default function Page() {
                 <span className="typing-cursor" />
               </h2>
             </div>
-            {/* Background watermark: text-[20vw] text-[var(--text)]/[0.02] */}
-            <div className="absolute left-0 w-full flex justify-center pointer-events-none overflow-hidden">
-              <h3 className="font-headline text-[20vw] font-black text-[var(--text)]/[0.02] whitespace-nowrap leading-none select-none">
-                FEATURED WORK
-              </h3>
-            </div>
             {/* Track: gap 3rem=48px, padding 0 10vw, mt-40=160px md:mt-20=80px */}
             <div
               className="project-track mt-64 md:mt-64"
@@ -777,13 +863,14 @@ export default function Page() {
                 onClick={() =>
                   setModal({
                     title: "Music Maestro",
-                    desc: "AI-curated adaptive music experience engine.",
+                    desc: "An AI-powered app that turns your mood or prompt into a Spotify playlist automatically.",
+                    url: "https://music-maestro-lyart.vercel.app/",
                   })
                 }
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
                   src={PROJECT_IMGS[0]}
                   alt="Music Maestro"
                 />
@@ -792,7 +879,7 @@ export default function Page() {
                     Music Maestro
                   </h4>
                   <p className="text-[var(--text-muted)] mb-8 text-sm">
-                    AI-curated adaptive music experience engine.
+                    An AI-powered app that turns your mood or prompt into a Spotify playlist automatically.
                   </p>
                   <div className="flex items-center gap-2 text-accent text-[10px] font-bold uppercase tracking-[0.3em]">
                     Click to Interact{" "}
@@ -803,67 +890,39 @@ export default function Page() {
                 </div>
               </div>
 
-              {/* Card 2: Summarix */}
-              <div
-                className="project-card nav-link group"
-                onClick={() =>
-                  setModal({
-                    title: "Summarix",
-                    desc: "LLM-powered executive information distillation tool.",
-                  })
-                }
-              >
+              {/* Card 2: Coming Soon */}
+              <div className="project-card focus-opacity opacity-70 cursor-default group">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  className="w-full h-full object-cover grayscale transition-all duration-700"
                   src={PROJECT_IMGS[1]}
-                  alt="Summarix"
+                  alt="Coming Soon"
                 />
                 <div className="project-overlay">
-                  <h4 className="text-4xl font-headline font-bold text-[var(--text)] mb-2 group-hover:text-accent transition-colors">
-                    Summarix
+                  <h4 className="text-4xl font-headline font-bold text-[var(--text-muted)] mb-2 uppercase tracking-tighter">
+                    COMING SOON...
                   </h4>
-                  <p className="text-[var(--text-muted)] mb-8 text-sm">
-                    LLM-powered executive information distillation tool.
+                  <p className="text-[var(--text-muted)] mb-8 text-sm italic">
+                    Additional AI-driven experiences are currently being refined.
                   </p>
-                  <div className="flex items-center gap-2 text-accent text-[10px] font-bold uppercase tracking-[0.3em]">
-                    Click to Interact{" "}
-                    <span className="material-symbols-outlined text-sm">
-                      north_east
-                    </span>
-                  </div>
                 </div>
               </div>
 
-              {/* Card 3: Lane Detection */}
-              <div
-                className="project-card nav-link group"
-                onClick={() =>
-                  setModal({
-                    title: "Lane Detection",
-                    desc: "Computer vision pipeline for navigation.",
-                  })
-                }
-              >
+              {/* Card 3: Coming Soon */}
+              <div className="project-card focus-opacity opacity-70 cursor-default group">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  className="w-full h-full object-cover grayscale transition-all duration-700"
                   src={PROJECT_IMGS[2]}
-                  alt="Lane Detection"
+                  alt="Coming Soon"
                 />
                 <div className="project-overlay">
-                  <h4 className="text-4xl font-headline font-bold text-[var(--text)] mb-2 group-hover:text-accent transition-colors">
-                    Lane Detection
+                  <h4 className="text-4xl font-headline font-bold text-[var(--text-muted)] mb-2 uppercase tracking-tighter">
+                    COMING SOON...
                   </h4>
-                  <p className="text-[var(--text-muted)] mb-8 text-sm">
-                    Computer vision pipeline for navigation.
+                  <p className="text-[var(--text-muted)] mb-8 text-sm italic">
+                    Stay tuned for more generative AI experiments.
                   </p>
-                  <div className="flex items-center gap-2 text-accent text-[10px] font-bold uppercase tracking-[0.3em]">
-                    Click to Interact{" "}
-                    <span className="material-symbols-outlined text-sm">
-                      north_east
-                    </span>
-                  </div>
                 </div>
               </div>
             </div>
@@ -880,10 +939,23 @@ export default function Page() {
               </h2>
             </Reveal>
             <Reveal>
-              <div
-                className="flex gap-8 overflow-x-auto pb-12 scroll-smooth"
-                id="cert-container"
-              >
+              <div className="relative group">
+                {/* Left Arrow */}
+                {certScroll.left && (
+                  <button 
+                    onClick={() => scrollCerts("left")}
+                    className="absolute left-0 top-1/2 -translate-y-[calc(50%+24px)] z-10 w-12 h-12 flex items-center justify-center rounded-full bg-[var(--surface-variant)] border border-[var(--border-color)] opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer shadow-[0_0_15px_rgba(0,0,0,0.5)] md:-mt-0 -ml-4 hover:shadow-[0_0_20px_var(--primary)] hover:border-[var(--primary)] group/btn"
+                    aria-label="Scroll Left"
+                  >
+                    <div className="w-0 h-0 border-y-[6px] border-y-transparent border-r-[8px] border-r-[var(--text-muted)] mr-1 group-hover/btn:border-r-[var(--primary)] transition-colors" />
+                  </button>
+                )}
+                
+                <div
+                  className="flex gap-8 overflow-x-auto pb-12 scroll-smooth [&::-webkit-scrollbar]:hidden"
+                  style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+                  id="cert-container"
+                >
                 <a
                   className="nav-link flex-shrink-0 w-80 p-8 bg-[var(--border-color)] border border-[var(--border-color)] rounded-2xl hover:border-accent-40 transition-all"
                   href="#"
@@ -941,6 +1013,18 @@ export default function Page() {
                   </p>
                 </a>
               </div>
+
+              {/* Right Arrow */}
+              {certScroll.right && (
+                <button 
+                  onClick={() => scrollCerts("right")}
+                  className="absolute right-0 top-1/2 -translate-y-[calc(50%+24px)] z-10 w-12 h-12 flex items-center justify-center rounded-full bg-[var(--surface-variant)] border border-[var(--border-color)] opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer shadow-[0_0_15px_rgba(0,0,0,0.5)] md:-mt-0 -mr-4 hover:shadow-[0_0_20px_var(--primary)] hover:border-[var(--primary)] group/btn"
+                  aria-label="Scroll Right"
+                >
+                  <div className="w-0 h-0 border-y-[6px] border-y-transparent border-l-[8px] border-l-[var(--text-muted)] ml-1 group-hover/btn:border-l-[var(--primary)] transition-colors" />
+                </button>
+              )}
+            </div>
             </Reveal>
           </div>
         </section>
@@ -1067,6 +1151,7 @@ export default function Page() {
           <ProjectModal
             title={modal.title}
             desc={modal.desc}
+            url={modal.url}
             onClose={() => setModal(null)}
           />
         )}

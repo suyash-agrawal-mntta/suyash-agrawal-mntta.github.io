@@ -29,15 +29,15 @@
 }
 
 [data-theme='catppuccin'] {
-  --bg: #efe0cf;            /* Warm latte cream */
+  --bg: #fdfbf7;            /* Off-white cream */
   --primary: #8b5523;       /* Rich coffee brown accent */
-  --text: #4a3628;          /* Dark roast text */
-  --text-muted: #7c6558;    /* Mocha muted text */
-  --border-color: rgba(74, 54, 40, 0.12);
-  --surface: #e6d5c3;       /* Café au lait surface */
-  --surface-variant: #f5ead9; /* Cream foam */
-  --surface-dark: #d4c0ab;  /* Cappuccino froth */
-  --surface-darker: #c9b197; /* Warm caramel */
+  --text: #3e2723;          /* Dark roast text */
+  --text-muted: #795548;    /* Mocha muted text */
+  --border-color: rgba(62, 39, 35, 0.12);
+  --surface: #f4efe6;       /* Light creamy surface */
+  --surface-variant: #eaddcb; /* Froth */
+  --surface-dark: #d5c3ac;
+  --surface-darker: #c9b197;
 }
 
 /* ═══════════════════════════════════════════════════

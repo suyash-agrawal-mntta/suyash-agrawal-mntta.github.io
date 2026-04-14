@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { Canvas } from "@react-three/fiber";
 
 const projects = [
-  { title: "Music Maestro", desc: "AI-curated adaptive music experience engine." },
+  { title: "Music Maestro", desc: "An AI-powered app that turns your mood or prompt into a Spotify playlist automatically." },
   { title: "Summarix", desc: "LLM-powered executive information distillation tool." },
   { title: "Lane Detection", desc: "Computer vision pipeline for navigation." }
 ];
