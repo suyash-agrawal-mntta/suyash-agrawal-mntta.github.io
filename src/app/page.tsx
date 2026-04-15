@@ -690,6 +690,35 @@ export default function Page() {
                     <span className="px-4 py-2 bg-[var(--border-color)] border border-[var(--border-color)] rounded-xl text-xs font-medium text-[var(--text-muted)]">AWS</span>
                   </div>
                 </div>
+
+                <a
+                  className="nav-link relative block overflow-hidden rounded-[28px] border border-[var(--border-color)] bg-[linear-gradient(180deg,rgba(255,255,255,0.03),rgba(255,255,255,0.01))] px-8 py-7 transition-colors hover:border-accent-40 md:col-span-2 lg:col-span-1"
+                  href="/assets/Blood_Donation_Camp_Appreciation_Letter.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <div className="absolute inset-y-0 left-0 w-1 bg-[var(--primary)]" />
+                  <div className="absolute -right-10 -top-10 h-28 w-28 rounded-full bg-[var(--primary)]/10 blur-3xl pointer-events-none" />
+                  <div className="relative pl-2">
+                    <div className="text-[10px] font-bold text-accent tracking-[0.24em] uppercase mb-3">
+                      Leadership &amp; Social Impact
+                    </div>
+                    <h3 className="text-lg font-bold text-[var(--text)] mb-2">
+                      Organised Blood Donation Camp
+                    </h3>
+                    <div className="text-xs font-bold tracking-[0.16em] text-[var(--text-muted)] uppercase mb-4">
+                      Indian Red Cross Society
+                    </div>
+                    <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-[11px] font-medium uppercase tracking-[0.18em] text-[var(--text-muted)] mb-4">
+                      <span>Vijayawada, AP</span>
+                      <span className="h-1 w-1 rounded-full bg-[var(--primary)]" />
+                      <span>Nov 2025</span>
+                    </div>
+                    <p className="text-sm text-[var(--text-muted)] leading-relaxed">
+                      Led a community blood donation drive in collaboration with the Indian Red Cross Society as part of a student-led social impact effort.
+                    </p>
+                  </div>
+                </a>
               </div>
             </Reveal>
           </div>
@@ -830,13 +859,21 @@ export default function Page() {
                   <p className="text-sm text-[var(--text-muted)] leading-relaxed max-w-sm mb-6">
                     <strong className="text-[var(--text)] font-semibold">General Subjects:</strong> Mathematics, Science, Social Science, Hindi, and English.
                   </p>
-                  <div className="p-4 bg-[var(--border-color)] rounded-xl border border-[var(--border-color)] inline-flex items-center gap-4">
+                  <a
+                    className="nav-link group p-4 bg-[var(--border-color)] rounded-xl border border-[var(--border-color)] inline-flex items-center gap-4 hover:border-accent-40 hover:-translate-y-0.5 hover:shadow-[0_0_24px_rgba(243,255,202,0.14)] transition-all"
+                    href="/assets/Suyash_Agrawal_Grade_10_Certificate_Of_Merit.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <span className="text-accent font-bold">94.4%</span>
                     <div className="h-4 w-px bg-[var(--border-color)]" />
                     <span className="text-xs text-[var(--text-muted)] uppercase tracking-widest">
                       Academic Excellence
                     </span>
-                  </div>
+                    <span className="material-symbols-outlined text-sm text-accent opacity-70 transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100">
+                      north_east
+                    </span>
+                  </a>
                 </Reveal>
               </div>
             </div>
