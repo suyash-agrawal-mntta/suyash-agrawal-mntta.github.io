@@ -15,7 +15,7 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "SUYASH AGRAWAL | AI Engineer Portfolio",
+  title: "Suyash's Portfolio",
   description:
     "Portfolio of Suyash Agrawal — AI Engineer building resilient LLM systems and Autonomous Agents.",
   keywords: [
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     "Suyash Agrawal",
   ],
   openGraph: {
-    title: "SUYASH AGRAWAL | AI Engineer Portfolio",
+    title: "Suyash's Portfolio",
     description:
       "Building resilient LLM systems and Autonomous Agents for international scale.",
     url: "https://portfolio.suyash.ai",
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "SUYASH AGRAWAL | AI Engineer Portfolio",
+    title: "Suyash's Portfolio",
     description: "Building resilient LLM systems and Autonomous Agents.",
   },
 };
